@@ -4,8 +4,10 @@ using UnityEngine;
 
 //The valuable ideas have been mark as "Core point" in comment
 [RequireComponent(typeof(CharacterController))]
-public class FPSCharacterController : MonoBehaviour 
+public class FPSCharacterController : PersistentSingletonBase<FPSCharacterController>
 {
+	public GameObject animingTarget;
+	public RaycastHit targetInfo;
 	[SerializeField] Camera cam;
 	[SerializeField] MouseTracker mouseTracker = new MouseTracker();
 	[SerializeField] bool useHeadBob;

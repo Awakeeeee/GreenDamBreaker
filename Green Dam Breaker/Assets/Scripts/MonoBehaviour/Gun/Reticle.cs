@@ -40,7 +40,10 @@ public class Reticle : MonoBehaviour
 
 		if(Physics.Raycast(this.transform.position, this.transform.forward, out hitInfo, detectLength, detectLayer))
 		{
-			Debug.Log("something is being detected");
+			FPSCharacterController.Instance.animingTarget = hitInfo.transform.gameObject;
+			FPSCharacterController.Instance.targetInfo = hitInfo;
+		}else{
+			FPSCharacterController.Instance.animingTarget = null;
 		}
 	}
 

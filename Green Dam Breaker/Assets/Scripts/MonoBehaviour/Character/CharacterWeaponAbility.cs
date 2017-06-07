@@ -7,14 +7,15 @@ public class CharacterWeaponAbility : CharacterAbility
 {
 	//- what happens when you click fire and hit stuff?
 	//gun recoil shakes ~
-	//gun flare & lighting 
+	//gun flare & lighting ~
 	//fire sound effect ~
 	//(optional)create bullet
 	//show a bullet trace
-	//update armo consumption
+	//update armo consumption ~
+	//bullet shell pop out ~
 	//-------
 	//particle effect on target
-	//sound effect on hiting target
+	//sound effect on hiting target ~
 	//other effect on target
 	//target receive damage
 
