@@ -6,14 +6,24 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FPSCharacterController : PersistentSingletonBase<FPSCharacterController>
 {
-	public GameObject animingTarget;
-	public RaycastHit targetInfo;
-	[SerializeField] Camera cam;
+	public GameObject lookingAtObject;
+
+	public enum CharacterState
+	{
+		Idle,
+		Walking,
+		Running,
+		Crouching,
+		Jumping
+	}
+	public CharacterState characterState;
+
+	public Camera cam;
 	[SerializeField] MouseTracker mouseTracker = new MouseTracker();
 	[SerializeField] bool useHeadBob;
 	[SerializeField] BobCurveController headBob = new BobCurveController();
 	[SerializeField] bool useFOVEffect;
-	[SerializeField] public FOVManipulater fovManipulater = new FOVManipulater();
+	public FOVManipulater fovManipulater = new FOVManipulater();
 	[SerializeField] bool isWalking;
 	[SerializeField] float walkSpeed;
 	[SerializeField] float runSpeed;
@@ -42,7 +52,7 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 	float nextStepPlace;	//a distance value that is reckon to be the next step, thus should play step sound and body bob
 
 	bool callJump;
-	bool isJumping;
+	//bool isJumping;	//deprecated, use enum state machine
 	bool previouslyGrounded;
 
 	void Start()
@@ -52,15 +62,18 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 		headBob.Setup(cam, footStepLength);
 		fovManipulater.Setup(cam);
 		soundPlayer = GetComponent<AudioSource>();
+
+		characterState = CharacterState.Idle;
 	}
 
 	//Update checks player state, and set the flags
+	//Update() is called later than FixedUpdate()
 	void Update()
 	{
 		mouseTracker.Track(this.transform, cam.transform);
 
 		//if player input attemps to jump this frame
-		//Core point : the if doesnot check isJumping flag, in this case you press jump when jumping, character will jump once it's grounded. It's like the pre-calculation.
+		//Core point : the if doesnot check isJumping state, in this case you press jump when jumping, character will jump once it's grounded. It's like the pre-calculation.
 		if(!callJump)
 		{
 			callJump = Input.GetButtonDown("Jump");
@@ -73,11 +86,12 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 			PlayAudioClip(landSFX);
 			nextStepPlace += footStepLength; //if not add one step, landing sound and a foot step sound will play at the same time(if character traveled more than one step dist in air)
 			frameMovement.y = 0f;	//TODO what is this
-			isJumping = false;
+			//isJumping = false;
+			characterState = CharacterState.Idle;
 		}
 
 		//if player start jumping this frame
-		if(previouslyGrounded && !isJumping && !controller.isGrounded)
+		if(previouslyGrounded && /*!isJumping*/characterState != CharacterState.Jumping && !controller.isGrounded)
 		{
 			frameMovement.y = 0f;
 		}
@@ -112,7 +126,8 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 				PlayAudioClip(jumpSFX);
 				frameMovement.y = jumpForce;
 				callJump = false;
-				isJumping = true;
+				//isJumping = true;
+				characterState = CharacterState.Jumping;
 			}
 		}else
 		{
@@ -131,11 +146,25 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 		isWalking = !Input.GetKey(KeyCode.LeftShift);	//hold shift to run
 		speed = isWalking ? walkSpeed : runSpeed;
 
-		//save the input to memeber variable inputMovement
+		//save the input to member variable inputMovement
 		input = new Vector2(inputX, inputY);
 		if(input.sqrMagnitude > 1f)
 		{
 			input.Normalize();
+		}
+
+		//change state based on input
+		if((inputX != 0f || inputY != 0f) && characterState != CharacterState.Jumping && characterState != CharacterState.Crouching)
+		{
+			if(isWalking)
+			{
+				characterState = CharacterState.Walking;
+			}else{
+				characterState = CharacterState.Running;
+			}
+		}else if(inputX == 0f && inputY == 0f && characterState != CharacterState.Jumping && characterState != CharacterState.Crouching)
+		{
+			characterState = CharacterState.Idle;
 		}
 
 		//if player start to run this frame
@@ -144,14 +173,18 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 			StopAllCoroutines();
 			if(isWalking)
 			{
-				StartCoroutine(fovManipulater.DecreaseFOV());	
+				StartCoroutine(fovManipulater.DecreaseFOV());
 			}else{
 				StartCoroutine(fovManipulater.IncreaseFOV());
 			}
 		}
 
-		FootStepCycle(speed);
-		HeadBobEffect(speed);
+		//TODO: it also make sense to have head bob when crouching, but crouching method has conflict with camera position
+		if(characterState == CharacterState.Walking || characterState == CharacterState.Running)
+		{
+			FootStepCycle(speed);
+			HeadBobEffect(speed);	
+		}
 	}
 
 	void PlayAudioClip(AudioClip clip)

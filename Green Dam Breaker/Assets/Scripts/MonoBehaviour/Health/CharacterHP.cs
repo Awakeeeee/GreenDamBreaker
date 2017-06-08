@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//deprecated
-public interface DestroyableObject
+public class CharacterHP : Health 
 {
-	void GetShoot(Vector3 hitPos);
+
 }

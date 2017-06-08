@@ -68,28 +68,36 @@ public class Gun : MonoBehaviour
 
 	[Space(10)]
 	[Header("Effect")]
-	public ObjectPool gunFlares;
+	public ParticleSystem gunFlare;
 	public ObjectPool shells;
 	public float outSpeed;
 	public Vector3 outDirMins;
 	public Vector3 outDirMaxs;
-	public GameObject pointLight;
+	public Light fireLight;
+
+	protected Ray shootRay;
+	protected LayerMask shootableLayer;
+	protected Reticle reticle;
 
 	protected virtual void Start()
+	{
+	}
+
+	protected virtual void OnEnable()
 	{
 		fireRate = 1f / ((float)fireSpeed / 60f);
 		recoilEffect.SetUp(this.transform.localRotation);
 
 		gunAudio = GetComponent<AudioSource>();
-	}
 
-	protected virtual void OnEnable()
-	{
 		fireTimer = 0f;
 		currentAmmo = magazineSize;
 		isReloading = false;
 		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + magazineSize.ToString());
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
+
+		shootableLayer = LayerMask.GetMask("Shootable");
+		reticle = Camera.main.GetComponent<Reticle>();
 	}
 
 	protected virtual void Update()
@@ -114,10 +122,9 @@ public class Gun : MonoBehaviour
 		//fire sfx
 		gunAudio.PlayOneShot(fireSFX);
 		//gun flare
-		GameObject gunFlare = gunFlares.GetPooledObj();
-		gunFlare.transform.position = muzzle.position;
+		gunFlare.gameObject.SetActive(true);
 		//lighting
-		pointLight.SetActive(true);
+		fireLight.gameObject.SetActive(true);
 		//bullet shell pop out
 		ShellPopOut();
 		//update ammo
@@ -129,19 +136,18 @@ public class Gun : MonoBehaviour
 		}else{
 			modelAnimator.SetTrigger("recoil");
 		}
-
-		//notify potential target that I am shooting you
-		GameObject target = FPSCharacterController.Instance.animingTarget;
-		if(target != null)
+		//physics raycast of shooting
+		//fow now this is basically same as eye raycasr, however I cast this new ray because I think eye raycast and gun raycast should be different in the future
+		shootRay.origin = reticle.transform.position;
+		shootRay.direction = reticle.transform.forward;
+		RaycastHit hitInfo;
+		if(Physics.Raycast(shootRay, out hitInfo, effectiveRange, shootableLayer))
 		{
-			RaycastHit targetInfo = FPSCharacterController.Instance.targetInfo;
+			Health target = hitInfo.transform.GetComponent<Health>();
 
-			if(target.GetComponent(typeof(DestroyableObject)))	//if this is a real target
+			if(target != null)
 			{
-				DestroyableObject destroyableTarget = target.GetComponent(typeof(DestroyableObject)) as DestroyableObject;
-				destroyableTarget.GetShoot(targetInfo.point);
-			}else{												//if this is just some block
-				
+				target.TakeDamage(hitInfo.point);
 			}
 		}
 	}

@@ -7,7 +7,7 @@ public class Reticle : MonoBehaviour
 {
 	[Header("RayCast")]
 	public bool toggle;
-	public LayerMask detectLayer;
+	public LayerMask eyeDetectLayer;
 	public float detectLength;
 
 	[Header("Visual")]
@@ -32,18 +32,21 @@ public class Reticle : MonoBehaviour
 	void InitReticle()
 	{
 		wposCanvas.transform.position = new Vector3(wposCanvas.transform.position.x, wposCanvas.transform.position.y, defaultReticleDist);
+		//eyeDetectLayer = ~LayerMask.GetMask("Ignore Raycast");
 	}
 
+	/// <summary>
+	/// Raycast of sight, this is not gun shot raycast.
+	/// </summary>
 	void EyeRaycast()
 	{
 		RaycastHit hitInfo;
 
-		if(Physics.Raycast(this.transform.position, this.transform.forward, out hitInfo, detectLength, detectLayer))
+		if(Physics.Raycast(this.transform.position, this.transform.forward, out hitInfo, detectLength, eyeDetectLayer))
 		{
-			FPSCharacterController.Instance.animingTarget = hitInfo.transform.gameObject;
-			FPSCharacterController.Instance.targetInfo = hitInfo;
+			FPSCharacterController.Instance.lookingAtObject = hitInfo.transform.gameObject;
 		}else{
-			FPSCharacterController.Instance.animingTarget = null;
+			FPSCharacterController.Instance.lookingAtObject = null;
 		}
 	}
 

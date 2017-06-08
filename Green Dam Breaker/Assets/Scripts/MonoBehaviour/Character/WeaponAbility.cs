@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //The ability to use weapon
-public class CharacterWeaponAbility : CharacterAbility
+public class WeaponAbility : CharacterAbility
 {
 	//- what happens when you click fire and hit stuff?
 	//gun recoil shakes ~
@@ -29,7 +29,7 @@ public class CharacterWeaponAbility : CharacterAbility
 	float defaultFOV;
 	float zoomSpeed;
 
-	void Start()
+	protected override void Start()
 	{
 		character = GetComponent<FPSCharacterController>();
 		cam = GetComponentInChildren<Camera>();
@@ -40,8 +40,11 @@ public class CharacterWeaponAbility : CharacterAbility
 		}
 	}
 
-	void Update()
+	protected override void Update()
 	{
+		if(!toggle)
+			return;
+		
 		ZoomView();
 	}
 
