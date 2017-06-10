@@ -55,6 +55,9 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 	//bool isJumping;	//deprecated, use enum state machine
 	bool previouslyGrounded;
 
+	float defaultWalkSpeed;
+	float defaultRunSpeed;
+
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
@@ -64,6 +67,9 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 		soundPlayer = GetComponent<AudioSource>();
 
 		characterState = CharacterState.Idle;
+
+		defaultWalkSpeed = walkSpeed;
+		defaultRunSpeed = runSpeed;
 	}
 
 	//Update checks player state, and set the flags
@@ -233,5 +239,17 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 
 		int x = Random.Range(0, footSteps.Length);
 		soundPlayer.PlayOneShot(footSteps[x]);
+	}
+
+	public void SetMoveSpeed(float walk, float run)
+	{
+		walkSpeed = walk;
+		runSpeed = run;
+	}
+
+	public void ResetMoveSpeed()
+	{
+		walkSpeed = defaultWalkSpeed;;
+		runSpeed = defaultRunSpeed;
 	}
 }

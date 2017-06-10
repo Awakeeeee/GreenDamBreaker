@@ -6,7 +6,13 @@ public class NextWork : MonoBehaviour
 {
 	//fix TO-DO task list
 
-	//press R to reload
+	//press R to reload	~
 
-	//speed change when crouching
+	//speed change when crouching	~
+
+	//update full ammo after reloading ~
+
+	//handle when ammo used up
+
+	//USE TRELLO
 }

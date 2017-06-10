@@ -18,6 +18,7 @@ public class Crouch : CharacterAbility
 
 	[Header("Setting")]
 	public float crouchTime;
+	public float crouchMoveSpeed;
 	float timer;
 	bool isCrouching;	//is in the process of stand -> crouch
 	Transform view;
@@ -48,6 +49,7 @@ public class Crouch : CharacterAbility
 		if(Input.GetButtonDown("Crouch"))
 		{
 			FPSCharacterController.Instance.characterState = FPSCharacterController.CharacterState.Crouching;
+			FPSCharacterController.Instance.SetMoveSpeed(crouchMoveSpeed, crouchMoveSpeed);
 			isCrouching = true;
 
 			cc.height -= colliderSizeLower;
@@ -57,6 +59,7 @@ public class Crouch : CharacterAbility
 		if(Input.GetButtonUp("Crouch"))
 		{
 			FPSCharacterController.Instance.characterState = FPSCharacterController.CharacterState.Idle;
+			FPSCharacterController.Instance.ResetMoveSpeed();
 			ResetViewHeight();
 
 			cc.center = originalColliderCenter;

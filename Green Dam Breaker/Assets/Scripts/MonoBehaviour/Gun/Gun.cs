@@ -42,6 +42,7 @@ public class Gun : MonoBehaviour
 	public GunType guntype;
 	public MachineType machineType;
 	public int magazineSize;
+	public int ammoLeft;
 	public int fireSpeed;	//bullets per minute
 	public float initialVelocity;
 	public float effectiveRange;
@@ -92,8 +93,9 @@ public class Gun : MonoBehaviour
 
 		fireTimer = 0f;
 		currentAmmo = magazineSize;
+		ammoLeft = magazineSize * 4;	//when pick up a new gun, there are 5 cartridge ammo
 		isReloading = false;
-		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + magazineSize.ToString());
+		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
 
 		shootableLayer = LayerMask.GetMask("Shootable");
@@ -104,7 +106,15 @@ public class Gun : MonoBehaviour
 	{
 		if(isReloading)	//if is reloading, pause the timer
 			return;
-		
+
+		if(Input.GetButtonDown("Reload"))
+		{
+			Reload();
+		}
+
+		if(ammoLeft + currentAmmo <= 0)	//TODO add effect
+			return;
+
 		if(fireTimer < fireRate)	//fire in CD
 		{
 			fireTimer += Time.deltaTime;
@@ -178,11 +188,28 @@ public class Gun : MonoBehaviour
 		}
 	}
 
+	void Reload()
+	{
+		isReloading = true;
+		modelAnimator.SetTrigger("reload");
+	}
+
 	//animation event
 	public void ReloadingFinish()
 	{
-		currentAmmo = magazineSize;
+		int ammoInCartridge = currentAmmo;
+
+		if(currentAmmo + ammoLeft >= magazineSize)
+		{
+			currentAmmo = magazineSize;
+		}else{
+			currentAmmo = currentAmmo + ammoLeft;
+		}
+
+		ammoLeft -= currentAmmo - ammoInCartridge;
+
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
+		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
 		fireTimer = fireRate;
 		isReloading = false;
 	}
