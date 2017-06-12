@@ -31,7 +31,7 @@ public class Reticle : MonoBehaviour
 
 	void InitReticle()
 	{
-		wposCanvas.transform.position = new Vector3(wposCanvas.transform.position.x, wposCanvas.transform.position.y, defaultReticleDist);
+		wposCanvas.transform.localPosition = new Vector3(wposCanvas.transform.localPosition.x, wposCanvas.transform.localPosition.y, defaultReticleDist);
 		//eyeDetectLayer = ~LayerMask.GetMask("Ignore Raycast");
 	}
 

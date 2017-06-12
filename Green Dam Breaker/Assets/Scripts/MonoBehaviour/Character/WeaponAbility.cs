@@ -26,7 +26,7 @@ public class WeaponAbility : CharacterAbility
 	Camera cam;
 	FPSCharacterController character;
 
-	float defaultFOV;
+	float originFOV;
 	float zoomSpeed;
 
 	protected override void Start()
@@ -36,7 +36,7 @@ public class WeaponAbility : CharacterAbility
 
 		if(cam)
 		{
-			defaultFOV = cam.fieldOfView;
+			originFOV = cam.fieldOfView;
 		}
 	}
 
@@ -53,33 +53,36 @@ public class WeaponAbility : CharacterAbility
 		if(character.fovManipulater.isChangingFOV)
 			return;
 
-		zoomSpeed = Mathf.Abs(defaultFOV - defaultFOV * zoomScale) / zoomTime;
+		if(cam.fieldOfView == character.fovManipulater.originalFOV + character.fovManipulater.changeAmount)
+			return;
+
+		zoomSpeed = Mathf.Abs(originFOV - originFOV * zoomScale) / zoomTime;
 
 		if(Input.GetButton("Fire2"))
 		{
 			//when fully complete zoom
-			if(Mathf.Abs(cam.fieldOfView - defaultFOV * zoomScale) <= 0.01f)
+			if(Mathf.Abs(cam.fieldOfView - originFOV * zoomScale) <= 0.01f)
 			{
-				cam.fieldOfView = defaultFOV * zoomScale;
+				cam.fieldOfView = originFOV * zoomScale;
 				return;
 			}
 
-			float newFOV = Mathf.MoveTowards(cam.fieldOfView, defaultFOV * zoomScale, zoomSpeed * Time.deltaTime);
+			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV * zoomScale, zoomSpeed * Time.deltaTime);
 			cam.fieldOfView = newFOV;
 
 			return;
 		}
 
 		//if not holding zoom button
-		if(cam.fieldOfView != defaultFOV)
+		if(cam.fieldOfView != originFOV)
 		{
-			float newFOV = Mathf.MoveTowards(cam.fieldOfView, defaultFOV, zoomSpeed * Time.deltaTime);
+			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV, zoomSpeed * Time.deltaTime);
 			cam.fieldOfView = newFOV;
 
 			//fully zoomed back
-			if(Mathf.Abs(cam.fieldOfView - defaultFOV) <= 0.01f)
+			if(Mathf.Abs(cam.fieldOfView - originFOV) <= 0.01f)
 			{
-				cam.fieldOfView = defaultFOV;
+				cam.fieldOfView = originFOV;
 			}
 		}
 	}

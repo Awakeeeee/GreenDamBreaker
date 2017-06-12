@@ -9,7 +9,7 @@ using System;
 [System.Serializable]
 public class FOVManipulater
 {
-	[HideInInspector] public bool isChangingFOV; 
+	[HideInInspector] public bool isChangingFOV;
 
 	public Camera targetCamera;
 	public float changeAmount = 3f;
@@ -20,7 +20,7 @@ public class FOVManipulater
 	//so this is a (0,0) ~ (1,1) curve
 	public AnimationCurve changeCurve;
 
-	private float originalFOV;
+	[HideInInspector] public float originalFOV;
 
 	//Some setting are meant to be set in Unity Inspector so here is no constructor to set them
 

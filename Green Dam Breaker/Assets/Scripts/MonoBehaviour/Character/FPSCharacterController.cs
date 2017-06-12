@@ -189,7 +189,7 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 		if(characterState == CharacterState.Walking || characterState == CharacterState.Running)
 		{
 			FootStepCycle(speed);
-			HeadBobEffect(speed);	
+			HeadBobEffect(speed);
 		}
 	}
 

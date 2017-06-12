@@ -29,3 +29,4 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.VR.xml
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.pdb
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Facebook.Unity.Settings.dll

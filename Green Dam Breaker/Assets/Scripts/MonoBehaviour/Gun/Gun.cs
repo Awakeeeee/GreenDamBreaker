@@ -51,6 +51,7 @@ public class Gun : MonoBehaviour
 	public Transform muzzle;
 	public Transform shellOut;
 
+	[SerializeField]protected float recoilAnimTime;
 	[SerializeField]protected float fireRate;
 	protected float fireTimer;
 	protected int currentAmmo;
@@ -60,6 +61,7 @@ public class Gun : MonoBehaviour
 	[Header("Audio")]
 	public AudioClip fireSFX;
 	public AudioClip reloadSFX;
+	public AudioClip fireNoAmmoSFX;
 	protected AudioSource gunAudio;
 
 	[Space(10)]
@@ -86,6 +88,17 @@ public class Gun : MonoBehaviour
 
 	protected virtual void OnEnable()
 	{
+		//get recoil clip length, show it in inspector to compare with fire rate
+		RuntimeAnimatorController rac = modelAnimator.runtimeAnimatorController;
+		for(int i = 0; i < rac.animationClips.Length; i++)
+		{
+			if(rac.animationClips[i].name == "Recoil")
+			{
+				recoilAnimTime = rac.animationClips[i].length;
+				break;
+			}
+		}
+
 		fireRate = 1f / ((float)fireSpeed / 60f);
 		recoilEffect.SetUp(this.transform.localRotation);
 
@@ -93,7 +106,7 @@ public class Gun : MonoBehaviour
 
 		fireTimer = 0f;
 		currentAmmo = magazineSize;
-		ammoLeft = magazineSize * 4;	//when pick up a new gun, there are 5 cartridge ammo
+		//ammoLeft = magazineSize * 4;	//when pick up a new gun, there are 5 cartridge ammo
 		isReloading = false;
 		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
@@ -107,13 +120,19 @@ public class Gun : MonoBehaviour
 		if(isReloading)	//if is reloading, pause the timer
 			return;
 
-		if(Input.GetButtonDown("Reload"))
+		if(Input.GetButtonDown("Reload") && ammoLeft > 0)
 		{
 			Reload();
 		}
 
-		if(ammoLeft + currentAmmo <= 0)	//TODO add effect
+		if(ammoLeft + currentAmmo <= 0)	//no ammo, stop here
+		{
+			if(Input.GetButtonDown("Fire1"))
+			{
+				gunAudio.PlayOneShot(fireNoAmmoSFX);
+			}
 			return;
+		}
 
 		if(fireTimer < fireRate)	//fire in CD
 		{
@@ -180,7 +199,7 @@ public class Gun : MonoBehaviour
 		currentAmmo -= 1;
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
 
-		if(currentAmmo <= 0)
+		if(currentAmmo <= 0 && ammoLeft > 0)
 		{
 			currentAmmo = 0;
 			isReloading = true;
