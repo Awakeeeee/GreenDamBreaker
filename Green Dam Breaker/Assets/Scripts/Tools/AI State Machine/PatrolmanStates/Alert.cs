@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Alert : PatrolmanStateBase 
 {
 	public float sightAngle = 60f;

@@ -42,16 +42,24 @@ public class PatrolmanFSM : AIStateMachine
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.white;
-		Gizmos.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10f);
+		Vector3 midLineEnd = this.transform.position + this.transform.forward * GetComponent<SphereCollider>().radius;
+		Gizmos.DrawLine(this.transform.position, midLineEnd);
 
 		Gizmos.color = Color.cyan;
-		Vector2 rotatedLeft = GetRotationVector(new Vector2(transform.forward.x, transform.forward.z), alertState.sightAngle / 2f);
-		Vector3 left = (new Vector3(rotatedLeft.x, 0f, rotatedLeft.y)).normalized;
-		Gizmos.DrawLine(this.transform.position,  this.transform.position + left * 10f);
+		Vector2 relativeStart = new Vector2(midLineEnd.x - this.transform.position.x, midLineEnd.z - this.transform.position.z);
+		Vector2 rotatedLeft = GetRotationVector(relativeStart, alertState.sightAngle / 2f);
+		Vector3 leftLineEnd = new Vector3(rotatedLeft.x + this.transform.position.x, this.transform.position.y, rotatedLeft.y + this.transform.position.z);
+		Gizmos.DrawLine(this.transform.position,  leftLineEnd);
+
+		Vector2 rotatedRight = GetRotationVector(relativeStart, 360f - alertState.sightAngle/ 2f);
+		Vector3 rightLineEnd = new Vector3(rotatedRight.x + this.transform.position.x, this.transform.position.y, rotatedRight.y + this.transform.position.z);
+		Gizmos.DrawLine(this.transform.position, rightLineEnd);
 	}
 
 	Vector2 GetRotationVector(Vector2 start, float untiClockwiseAngle)
 	{
+		untiClockwiseAngle = untiClockwiseAngle * Mathf.Deg2Rad;
+
 		float x = start.x * Mathf.Cos(untiClockwiseAngle) - start.y * Mathf.Sin(untiClockwiseAngle);
 		float y = start.x * Mathf.Sin(untiClockwiseAngle) + start.y * Mathf.Cos(untiClockwiseAngle);
 

@@ -170,7 +170,7 @@ public class Gun : MonoBehaviour
 		shootRay.origin = reticle.transform.position;
 		shootRay.direction = reticle.transform.forward;
 		RaycastHit hitInfo;
-		if(Physics.Raycast(shootRay, out hitInfo, effectiveRange, shootableLayer))
+		if(Physics.Raycast(shootRay, out hitInfo, effectiveRange, shootableLayer, QueryTriggerInteraction.Ignore))
 		{
 			Health target = hitInfo.transform.GetComponent<Health>();
 
