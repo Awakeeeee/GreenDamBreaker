@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 	}
 
-	public virtual void TakeDamage(Vector3 hitPos)
+	public virtual void TakeDamage(RaycastHit hit, float damage)
 	{
 		
 	}

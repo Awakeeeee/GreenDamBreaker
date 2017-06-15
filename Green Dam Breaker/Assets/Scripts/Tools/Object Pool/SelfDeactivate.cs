@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SelfDeactivate : MonoBehaviour 
 {
-	public MonoBehaviour component;
 	public float time;
 
 	void Start()

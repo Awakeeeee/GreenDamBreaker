@@ -13,13 +13,12 @@ public class MoveTo : PatrolmanStateBase
 
 	public override void OnEnter()
 	{
-		Debug.Log("Enter move to state.");
 		faceDir = Quaternion.LookRotation(destination - sfsm.transform.position);
 	}
 
 	public override void OnExit()
 	{
-		Debug.Log("Exit move to state.");
+		
 	}
 
 	public override void StateUpdate()

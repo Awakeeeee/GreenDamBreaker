@@ -13,4 +13,10 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 	{
 		UIText.text = content;
 	}
+
+	public void ShowText(Text t)
+	{
+		t.gameObject.SetActive(true);
+		t.enabled = true;
+	}
 }

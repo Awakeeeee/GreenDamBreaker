@@ -56,17 +56,6 @@ public class Crouch : CharacterAbility
 			cc.center = new Vector3(originalColliderCenter.x, originalColliderCenter.y - colliderSizeLower / 2f, originalColliderCenter.z);
 		}
 
-		if(Input.GetButtonUp("Crouch"))
-		{
-			FPSCharacterController.Instance.characterState = FPSCharacterController.CharacterState.Idle;
-			FPSCharacterController.Instance.ResetMoveSpeed();
-			ResetViewHeight();
-
-			cc.center = originalColliderCenter;
-			cc.height = originalColliderHeight;
-			timer = 0.0f;
-		}
-
 		//transform down
 		if(isCrouching)
 		{
@@ -80,6 +69,18 @@ public class Crouch : CharacterAbility
 			}else{
 				view.localPosition = new Vector3(view.localPosition.x, viewHorizon, view.localPosition.z);
 			}
+		}
+
+		if(Input.GetButtonUp("Crouch"))
+		{
+			FPSCharacterController.Instance.characterState = FPSCharacterController.CharacterState.Idle;
+			FPSCharacterController.Instance.ResetMoveSpeed();
+			ResetViewHeight();
+
+			cc.center = originalColliderCenter;
+			cc.height = originalColliderHeight;
+			isCrouching = false;
+			timer = 0.0f;
 		}
 	}
 

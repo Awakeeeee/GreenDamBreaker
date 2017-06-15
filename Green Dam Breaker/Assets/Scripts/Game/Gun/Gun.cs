@@ -44,8 +44,10 @@ public class Gun : MonoBehaviour
 	public int magazineSize;
 	public int ammoLeft;
 	public int fireSpeed;	//bullets per minute
+	public float damage;
 	public float initialVelocity;
 	public float effectiveRange;
+	public LayerMask shootableLayer;
 	public Transform model;
 	public Animator modelAnimator;
 	public Transform muzzle;
@@ -79,7 +81,6 @@ public class Gun : MonoBehaviour
 	public Light fireLight;
 
 	protected Ray shootRay;
-	protected LayerMask shootableLayer;
 	protected Reticle reticle;
 
 	protected virtual void Start()
@@ -111,7 +112,6 @@ public class Gun : MonoBehaviour
 		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
 		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
 
-		shootableLayer = LayerMask.GetMask("Shootable");
 		reticle = Camera.main.GetComponent<Reticle>();
 	}
 
@@ -176,7 +176,7 @@ public class Gun : MonoBehaviour
 
 			if(target != null)
 			{
-				target.TakeDamage(hitInfo.point);
+				target.TakeDamage(hitInfo, damage);
 			}
 		}
 	}

@@ -12,8 +12,6 @@ public class LookAround : PatrolmanStateBase
 
 	public override void OnEnter ()
 	{
-		Debug.Log("Enter look around state.");
-
 		timer = 0.0f;
 		patrolCounter++;
 		if(patrolCounter >= sfsm.patrolPoints.Length)
@@ -24,7 +22,7 @@ public class LookAround : PatrolmanStateBase
 
 	public override void OnExit ()
 	{
-		Debug.Log("Exit look around state.");
+		
 	}
 
 	public override void StateUpdate ()
