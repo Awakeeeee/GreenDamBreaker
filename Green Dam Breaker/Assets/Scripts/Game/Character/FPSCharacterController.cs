@@ -4,7 +4,7 @@ using UnityEngine;
 
 //The valuable ideas have been mark as "Core point" in comment
 [RequireComponent(typeof(CharacterController))]
-public class FPSCharacterController : PersistentSingletonBase<FPSCharacterController>
+public class FPSCharacterController : SingletonBase<FPSCharacterController>
 {
 	public GameObject lookingAtObject;
 
@@ -19,6 +19,7 @@ public class FPSCharacterController : PersistentSingletonBase<FPSCharacterContro
 	public CharacterState characterState;
 
 	public Camera cam;
+	public Transform hands;
 	[SerializeField] MouseTracker mouseTracker = new MouseTracker();
 	[SerializeField] bool useHeadBob;
 	[SerializeField] BobCurveController headBob = new BobCurveController();

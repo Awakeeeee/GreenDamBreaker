@@ -41,6 +41,10 @@ public class Gun : MonoBehaviour
 
 	public GunType guntype;
 	public MachineType machineType;
+	public string gunName;
+	[Multiline]
+	public string description;
+	public int ID;	//ID is the key to distinguish different guns
 	public int magazineSize;
 	public int ammoLeft;
 	public int fireSpeed;	//bullets per minute

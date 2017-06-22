@@ -36,7 +36,7 @@ public class EnemyHP : Health
 		if(currentHP <= 0f && !isDead)
 		{
 			currentHP = 0f;
-			StartCoroutine(DieCo(-hit.normal));
+			StartCoroutine(DieCo(hit));
 		}
 
 		//sfx
@@ -49,15 +49,16 @@ public class EnemyHP : Health
 		GlobalBulletImpactParticle.Instance.CreateBulletImpactAt(hit.point);
 	}
 
-	IEnumerator DieCo(Vector3 normal)
+	IEnumerator DieCo(RaycastHit hit)
 	{
 		isDead = true;
 		enemyAI.enabled = false;
 
 		body.useGravity = true;
-		body.AddForce(normal * deathHitBackForce);
+		body.AddForce(-hit.normal * deathHitBackForce);
 
-		deathEffect.transform.rotation = Quaternion.LookRotation(normal);
+		deathEffect.transform.rotation = Quaternion.LookRotation(-hit.normal);
+		deathEffect.transform.position = hit.point;
 		deathEffect.gameObject.SetActive(true);
 
 		yield return new WaitForSeconds(startToSinkAfter);
