@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /*
 Gun parameters:
@@ -131,7 +132,7 @@ public class Gun : MonoBehaviour
 
 		if(ammoLeft + currentAmmo <= 0)	//no ammo, stop here
 		{
-			if(Input.GetButtonDown("Fire1"))
+			if(Input.GetButtonDown("Fire1")) 
 			{
 				gunAudio.PlayOneShot(fireNoAmmoSFX);
 			}
@@ -152,6 +153,9 @@ public class Gun : MonoBehaviour
 
 	protected virtual void Fire()
 	{
+		if(EventSystem.current.IsPointerOverGameObject())
+			return;
+		
 		//fire sfx
 		gunAudio.PlayOneShot(fireSFX);
 		//gun flare

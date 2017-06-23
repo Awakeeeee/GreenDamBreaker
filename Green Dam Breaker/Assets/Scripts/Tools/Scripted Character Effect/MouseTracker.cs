@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// A tool class, given a target camera and character, create a rotation to let the facing follows mouse move.
@@ -29,7 +30,7 @@ public class MouseTracker
 	{
 		m_characterRotation = mc.localRotation;
 		m_cameraRotation = cam.localRotation;
-		HideCursor();
+		GUIManager.Instance.HideCursor();
 	}
 
 	//Call in Monobehaviour update to work
@@ -37,7 +38,7 @@ public class MouseTracker
 	{
 		float rotateAmountAroundY = Input.GetAxis("Mouse X") * sensitiveX;
 		float rotateAmountAroundX = Input.GetAxis("Mouse Y") * sensitiveY;
-
+		 
 		//Note here left right rotation is applied on Character, up down rotation is applied on Camera.
 		//In this way, euler rotation on character obj is alway like (0, y, 0), and (x, 0, 0) on camera
 		//and so I can apply my law of Quaternion(x1, 0, 0) * Quaternion(x2, 0, 0) = Quaternion(x1 + x2, 0, 0) here
@@ -63,31 +64,23 @@ public class MouseTracker
 			camera.transform.localRotation = m_cameraRotation;
 		}
 
-		CursorBehaviour();
+		if(!EventSystem.current.IsPointerOverGameObject())
+		{
+			CursorBehaviour();
+		}
 	}
 
 	void CursorBehaviour()
 	{
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
-			ShowCursor();
+			GUIManager.Instance.ShowCursor();
 		}
 
 		if(Input.GetMouseButtonDown(0))
 		{
-			HideCursor();
+			GUIManager.Instance.HideCursor();
 		}
-	}
-
-	void ShowCursor()
-	{
-		Cursor.lockState = CursorLockMode.None;	//lock to center of screen
-		Cursor.visible = true;
-	}
-	void HideCursor()
-	{
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
 	}
 
 	/// Clamps the roation around X axis, limit the euler angel between min and max.

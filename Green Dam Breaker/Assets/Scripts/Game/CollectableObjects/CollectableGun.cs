@@ -21,19 +21,22 @@ public class CollectableGun : MonoBehaviour, ICollectable
 		existingGuns = playerHands.GetComponentsInChildren<Gun>(true);
 		foreach(Gun g in existingGuns)
 		{
-			g.gameObject.SetActive(false);
-
 			if(g.ID == gunPrefab.ID)
 			{
 				checkHave = true;
-				g.gameObject.SetActive(true);
 				//TODO ammo? anim?
 			}
 		}
 
 		if(!checkHave)
 		{
-			gunPrefab = Instantiate(gunPrefab, playerHands);
+			Gun newGun = Instantiate(gunPrefab, playerHands) as Gun;
+			newGun.gameObject.SetActive(false);
+			PersonalIntelligentMachine.Instance.AddGunToCollection(newGun);
+			Destroy(this.gameObject);
+		}else{
+			//already have it , decide what to do
+			//collect ammo? just cannot pick up?
 		}
 
 		checkHave = false;

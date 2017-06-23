@@ -28,7 +28,6 @@ public class CharacterHP : Health
 		//sfx
 		if(getShootSound != null && audioSource != null)
 		{
-			Debug.Log("called");
 			audioSource.PlayOneShot(getShootSound);	
 		}
 
