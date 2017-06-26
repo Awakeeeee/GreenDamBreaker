@@ -14,6 +14,8 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 	public Animator imAnimator;
 	public CanvasGroup mainPanel;
 	public CanvasGroup armoryPanel;
+	public RectTransform armoryContent;
+	private CollectionButton[] gunCollection;
 	private bool imOpen = false;
 
 	public void UpdateText(Text UIText, string content)
@@ -49,9 +51,28 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 			imAnimator.SetTrigger("Deactivate");
 			HideCursor();
 		}else{
+			ActivateCanvasGroup(mainPanel);
+			DeactivateCanvasGroup(armoryPanel);
 			imOpen = true;
 			imAnimator.SetTrigger("Activate");
 			ShowCursor();
+		}
+	}
+
+	public void SetupCollectionUI()
+	{
+		gunCollection = armoryContent.GetComponentsInChildren<CollectionButton>();
+	}
+
+	public void SetCollectionButton(Gun gunInfo)
+	{
+		for(int i = 0; i< gunCollection.Length; i++)
+		{
+			if(!gunCollection[i].TogglePointerDown)
+			{
+				gunCollection[i].AddGun(gunInfo);
+				return;
+			}
 		}
 	}
 
