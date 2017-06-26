@@ -11,25 +11,95 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 	public string[] missionNameList;
 	private int selection;
 
+	private SerializedProperty levelIDProp;
+	private SerializedProperty levelNameProp;
+	private SerializedProperty levelDescriptionProp;
+	private SerializedProperty levelBGMProp;
 	private SerializedProperty missionsProp;
+
+	GameLevel self;
+
+	GUIStyle labelStyle1;
 
 	void OnEnable()
 	{
 		missionsProp = serializedObject.FindProperty("missions");
+		levelIDProp = serializedObject.FindProperty("levelID");
+		levelNameProp = serializedObject.FindProperty("levelName");
+		levelDescriptionProp = serializedObject.FindProperty("levelDescription");
+		levelBGMProp = serializedObject.FindProperty("levelBGM");
+
+		self = target as GameLevel;
 
 		SetupMissionList();
+
+		labelStyle1 = new GUIStyle();
+		labelStyle1.fontStyle = FontStyle.Italic;
+		labelStyle1.normal.textColor = Color.cyan;
+		labelStyle1.fontSize = 20;
 	}
 
 	public override void OnInspectorGUI ()
 	{
-		base.OnInspectorGUI ();
+		DrawLevelInfoPanel();
+		DrawMusicPanel();
 		DrawMissionPanel();
+	}
+
+	void DrawLevelInfoPanel()
+	{
+		EditorGUILayout.BeginVertical(GUI.skin.box);
+		EditorGUI.indentLevel++;
+
+		EditorGUILayout.LabelField("Level Infomation", labelStyle1);
+		GUILayout.Space(10f);
+
+		EditorGUILayout.PropertyField(levelIDProp);
+		EditorGUILayout.PropertyField(levelNameProp);
+
+		GUILayout.Space(5f);
+
+		EditorGUILayout.PropertyField(levelDescriptionProp);
+
+		EditorGUI.indentLevel--;
+		EditorGUILayout.EndVertical();
+	}
+
+	void DrawMusicPanel()
+	{
+		EditorGUILayout.BeginVertical(GUI.skin.box);
+		EditorGUI.indentLevel++;
+
+		EditorGUILayout.LabelField("Level Music", labelStyle1);
+		GUILayout.Space(10f);
+
+		EditorGUILayout.PropertyField(levelBGMProp);
+
+		EditorGUI.indentLevel--;
+		EditorGUILayout.EndVertical();
 	}
 
 	void DrawMissionPanel()
 	{
 		EditorGUILayout.BeginVertical(GUI.skin.box);
 		EditorGUI.indentLevel++;
+
+		EditorGUILayout.LabelField("Level Missions", labelStyle1);
+
+		GUILayout.Space(10f);
+
+		DrawMissionPopup();
+
+		if(missionsProp.arraySize > 0)
+		{
+			for(int i = 0; i < missionsProp.arraySize; i++)
+			{
+				EditorGUILayout.PropertyField(missionsProp.GetArrayElementAtIndex(i));
+			}
+		}
+
+		EditorGUI.indentLevel--;
+		EditorGUILayout.EndVertical();
 	}
 
 	void DrawMissionPopup()
@@ -40,17 +110,19 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 		GUILayout.FlexibleSpace();
 		EditorGUILayout.EndHorizontal();
 
+		GUILayout.Space(5f);
+
 		EditorGUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
-		if(GUILayout.Button("Add Mission", GUILayout.Width(150f)))
+		if(GUILayout.Button("Add Mission", GUILayout.Width(120f)))
 		{
 			Type missionType = missionTypeList[selection];
 			LevelMissionBase mission = CreateInstance(missionType) as LevelMissionBase;
 			missionsProp.AddElementToArray(mission);
 		}
-		if(GUILayout.Button("Clear Mission List", GUILayout.Width(150f)))
+		if(GUILayout.Button("Remove Mission", GUILayout.Width(120f)))
 		{
-			missionsProp.ClearArray();
+			missionsProp.RemoveElementAtIndex(missionsProp.arraySize - 1);
 		}
 		GUILayout.FlexibleSpace();
 		EditorGUILayout.EndHorizontal();
