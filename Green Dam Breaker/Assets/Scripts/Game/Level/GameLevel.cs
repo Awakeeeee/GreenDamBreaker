@@ -9,7 +9,7 @@ public class GameLevel : MonoBehaviour
 	[Multiline]
 	public string levelDescription;
 
-	public LevelMissionBase[] missions;
+	public LevelMissionBase[] missions = new LevelMissionBase[0];
 
 	public AudioClip levelBGM;
 }

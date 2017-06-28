@@ -31,6 +31,7 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 
 		self = target as GameLevel;
 
+		SetupSubEditorList(self.missions);
 		SetupMissionList();
 
 		labelStyle1 = new GUIStyle();
@@ -41,9 +42,15 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 
 	public override void OnInspectorGUI ()
 	{
+		serializedObject.Update();
+
+		SetupSubEditorList(self.missions);
+
 		DrawLevelInfoPanel();
 		DrawMusicPanel();
 		DrawMissionPanel();
+
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	void DrawLevelInfoPanel()
@@ -90,11 +97,11 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 
 		DrawMissionPopup();
 
-		if(missionsProp.arraySize > 0)
+		if(subEditorList != null)
 		{
-			for(int i = 0; i < missionsProp.arraySize; i++)
+			for(int i = 0; i < subEditorList.Length; i++)
 			{
-				EditorGUILayout.PropertyField(missionsProp.GetArrayElementAtIndex(i));
+				subEditorList[i].OnInspectorGUI();
 			}
 		}
 
@@ -117,12 +124,13 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 		if(GUILayout.Button("Add Mission", GUILayout.Width(120f)))
 		{
 			Type missionType = missionTypeList[selection];
-			LevelMissionBase mission = CreateInstance(missionType) as LevelMissionBase;
+			LevelMissionBase mission = LevelMissionBaseEditor.CreateMission(missionType);
 			missionsProp.AddElementToArray(mission);
 		}
 		if(GUILayout.Button("Remove Mission", GUILayout.Width(120f)))
 		{
-			missionsProp.RemoveElementAtIndex(missionsProp.arraySize - 1);
+			//missionsProp.RemoveElementAtIndex(missionsProp.arraySize - 1);	//TODO it takes 2 click to remove an instance, why?
+			missionsProp.ClearArray();
 		}
 		GUILayout.FlexibleSpace();
 		EditorGUILayout.EndHorizontal();

@@ -11,6 +11,8 @@ public abstract class EditorWithSubEditors<TSubEditor, TSubObject> : Editor
 
 	public void SetupSubEditorList(TSubObject[] objectList)
 	{
+		subEditorList = new TSubEditor[0];
+
 		//handle null object list
 		if(objectList == null)
 		{
