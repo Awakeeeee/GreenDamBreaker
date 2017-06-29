@@ -7,21 +7,29 @@ using UnityEditor;
 
 public class GetItem : LevelMissionBase 
 {
-	public Transform target;
+	public Item target;
 
 	protected override void InternalOnEnable ()
 	{
-		
+		InspectObject.pickEvent += OnPickupKeyItem;
 	}
 
 	protected override void InternalOnDisable ()
 	{
-		
+		InspectObject.pickEvent -= OnPickupKeyItem;
 	}
 
-	protected override bool CheckComplete ()
+	protected override void CheckComplete ()
 	{
-		return false;
+		//this mission use the event to check complete
+	}
+
+	void OnPickupKeyItem()
+	{
+		if(GUIManager.Instance.playerInventory.SearchItemByID(target.itemID))
+		{
+			bCompleted = true;
+		}
 	}
 }
 

@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class GUIManager : PersistentSingletonBase<GUIManager>
 {
-	public CanvasGroup HealthPanel, AmmoPanel;
+	[Header("Health UI")]
+	public CanvasGroup HealthPanel;
+	public Text HealthText;
 
-	public Text HealthText, CurrentAmmoText, FullAmmoText;
+	[Header("Ammo UI")]
+	public CanvasGroup AmmoPanel;
+	public Text CurrentAmmoText, FullAmmoText;
 
 	[Header("Intelligent Machine UI")]
 	public CanvasGroup imPanel;
@@ -17,6 +21,17 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 	public RectTransform armoryContent;
 	private CollectionButton[] gunCollection;
 	private bool imOpen = false;
+
+	[Header("Inventory")]
+	public Inventory playerInventory;
+	public CanvasGroup tooltip;
+	public Text tipTitle;
+	public Text tipDescription;
+
+	void Start()
+	{
+		HideToolTip();
+	}
 
 	public void UpdateText(Text UIText, string content)
 	{
@@ -53,6 +68,7 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 		}else{
 			ActivateCanvasGroup(mainPanel);
 			DeactivateCanvasGroup(armoryPanel);
+			//TODO deactivate other panels
 			imOpen = true;
 			imAnimator.SetTrigger("Activate");
 			ShowCursor();
@@ -74,6 +90,19 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 				return;
 			}
 		}
+	}
+
+	public void ShowToolTip(string tip, string desc)
+	{
+		tipTitle.text = tip;
+		tipDescription.text = desc;
+
+		tooltip.alpha = 1.0f;
+	}
+
+	public void HideToolTip()
+	{
+		tooltip.alpha = 0.0f;
 	}
 
 	public void ShowCursor()

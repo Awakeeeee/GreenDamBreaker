@@ -24,7 +24,8 @@ public class CollectableGun : MonoBehaviour, ICollectable
 			if(g.ID == gunPrefab.ID)
 			{
 				checkHave = true;
-				//TODO ammo? anim?
+				//TODO already have it , decide what to do
+				//collect ammo? just cannot pick up?
 			}
 		}
 
@@ -34,9 +35,6 @@ public class CollectableGun : MonoBehaviour, ICollectable
 			newGun.gameObject.SetActive(false);
 			PersonalIntelligentMachine.Instance.AddGunToCollection(newGun);
 			Destroy(this.gameObject);
-		}else{
-			//already have it , decide what to do
-			//collect ammo? just cannot pick up?
 		}
 
 		checkHave = false;

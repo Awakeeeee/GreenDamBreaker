@@ -12,4 +12,16 @@ public class GameLevel : MonoBehaviour
 	public LevelMissionBase[] missions = new LevelMissionBase[0];
 
 	public AudioClip levelBGM;
+
+	void Update()
+	{
+		//complete everyone to complete this level
+		for(int i = 0; i < missions.Length; i++)
+		{
+			if(!missions[i].IsCompleted)
+				return;
+		}
+
+		Debug.Log("Level is completed.");
+	}
 }
