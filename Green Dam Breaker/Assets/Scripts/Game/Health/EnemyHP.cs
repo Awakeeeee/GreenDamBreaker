@@ -20,6 +20,8 @@ public class EnemyHP : Health
 	AIStateMachine enemyAI;
 	Rigidbody body;
 
+	public event System.Action OnDeath;	//a non-static event which belongs to each enemy instance
+
 	protected override void OnEnable ()
 	{
 		base.OnEnable ();
@@ -52,8 +54,7 @@ public class EnemyHP : Health
 	IEnumerator DieCo(RaycastHit hit)
 	{
 		isDead = true;
-		enemyAI.enabled = false;
-
+		enemyAI.DeactiveSelf();
 		body.useGravity = true;
 		body.AddForce(-hit.normal * deathHitBackForce);
 
@@ -70,6 +71,11 @@ public class EnemyHP : Health
 			transform.Translate(Vector3.down * sinkSpeed * Time.deltaTime);
 			timer += Time.deltaTime;
 			yield return null;
+		}
+
+		if(OnDeath != null)
+		{
+			OnDeath();
 		}
 
 		Destroy(this.gameObject);

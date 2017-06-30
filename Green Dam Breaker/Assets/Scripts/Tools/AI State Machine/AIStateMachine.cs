@@ -31,4 +31,9 @@ public class AIStateMachine : MonoBehaviour
 		}
 		currentState.OnEnter();
 	}
+
+	public virtual void DeactiveSelf()
+	{
+		this.enabled = false;
+	}
 }
