@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour 
 {
-	public Transform[] spawnPoints;
-
 	public Wave[] waves;
 	public EnemyHP enemyPrefab;
 
@@ -15,8 +13,11 @@ public class WaveSpawner : MonoBehaviour
 	private int waveRemainingEnemyNumber;	//the enemy waiting to be spawned in a wave
 	private float nextSpawnTime;
 
+	private MapGenerator mapG;
+
 	void Start()
 	{
+		mapG = FindObjectOfType<MapGenerator>();
 		currentWaveNumber = 0;
 		NextWave();
 	}
@@ -27,14 +28,37 @@ public class WaveSpawner : MonoBehaviour
 		{
 			if(Time.time >= nextSpawnTime && waveRemainingEnemyNumber > 0)
 			{
-				EnemyHP newEnemy = Instantiate(enemyPrefab, GetRandomSpawnPos(), Quaternion.identity);
 				nextSpawnTime = Time.time + currentWave.spawnInterval;
 				waveRemainingEnemyNumber --;
-				newEnemy.OnDeath += OnEnemyDeath;	//TODO no where to -= this method, does destroy the enemy do the work?
+				StartCoroutine(SpawnEnemy());
 			}
 		}else{
 			NextWave();
 		}
+	}
+
+	IEnumerator SpawnEnemy()
+	{
+		float timer = 0.0f;
+
+		Renderer tile = mapG.GetRandomOpenTile().GetComponent<Renderer>();
+
+		Color fromColor = tile.material.color;
+		Color toColor = Color.red;
+
+		while(timer < currentWave.spawnTime)
+		{
+			Color frameColor = Color.Lerp(fromColor, toColor, Utility.MyMathPingPoing(timer * currentWave.flashSpeed, 1f));
+
+			tile.material.color = frameColor;
+
+			timer += Time.deltaTime;
+			yield return null;
+		}
+
+		tile.material.color = fromColor;
+		EnemyHP newEnemy = Instantiate(enemyPrefab, tile.transform.position, Quaternion.identity);
+		newEnemy.OnDeath += OnEnemyDeath;	//TODO no where to -= this method, does destroy the enemy do the work?
 	}
 
 	void OnEnemyDeath()
@@ -53,13 +77,8 @@ public class WaveSpawner : MonoBehaviour
 			nextSpawnTime = Time.time + currentWave.spawnInterval;
 		}else{
 			Debug.LogWarning("All enemy from this spawner has been spawned.");
+			this.gameObject.SetActive(false);
 		}
-	}
-
-	Vector3 GetRandomSpawnPos()
-	{
-		int x = Random.Range(0, spawnPoints.Length);
-		return spawnPoints[x].position;
 	}
 }
 
@@ -68,4 +87,6 @@ public class Wave
 {
 	public int waveEnemyTotal;
 	public float spawnInterval;
+	public float spawnTime = 1.0f;
+	public int flashSpeed = 4;	//when spawnTime is 1, flash 4 times
 }

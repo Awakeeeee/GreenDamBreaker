@@ -19,4 +19,23 @@ public static class Utility
 
 		return array;
 	}
+
+	//try implement Mathf.PingPong
+	//t is any increasing number, length is the range (0, range)
+	//return a number from 0 to length then length to 0 back and forth
+	public static float MyMathPingPoing(float t, float length)
+	{
+		//given t is a increase number
+		//when t is between 2length~3length, T is 0~length
+		//when t is between 3length~4length, T is between length~2length, in this case, transfer length~2length to length~0
+		float L = length * 2;
+		float T = t % L;
+
+		if(T >= 0 && T <= length)
+		{
+			return T;
+		}else{
+			return L - T;
+		}
+	}
 }

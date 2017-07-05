@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Scene_RandomDungeon_1.unity
+- path: Assets/Scenes/Scene_two.unity
   isLoaded: 1
   isActive: 1
