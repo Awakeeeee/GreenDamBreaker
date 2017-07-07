@@ -5,6 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour 
 {
 	public AudioClip getShootSound;
+	public AudioClip dieSound;
 	protected AudioSource audioSource;
 
 	protected virtual void OnEnable()

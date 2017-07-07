@@ -6,16 +6,26 @@ using UnityEngine;
 public class EnemyHP : Health
 {
 	public GameObject[] bodyParts;	//optional
+	public Transform miniMapMark;
 
 	public float maxHP;
+	public ParticleSystem deathEffect;
+	public Collider nonTriggerCollider;
+
+	public enum DieEffect
+	{
+		Sink,
+		Crush
+	}
+	public DieEffect dieEffect;
+
+	[Header("If Die to Sink")]
 	public float deathHitBackForce;
 	public float startToSinkAfter;
 	public float sinkTime;
 	public float sinkSpeed;
-	public ParticleSystem deathEffect;
-	public Collider nonTriggerCollider;
 
-	private float currentHP;
+	float currentHP;
 	bool isDead;
 	AIStateMachine enemyAI;
 	Rigidbody body;
@@ -35,11 +45,6 @@ public class EnemyHP : Health
 	public override void TakeDamage(RaycastHit hit, float damage)
 	{
 		currentHP -= damage;
-		if(currentHP <= 0f && !isDead)
-		{
-			currentHP = 0f;
-			StartCoroutine(DieCo(hit));
-		}
 
 		//sfx
 		if(getShootSound != null && audioSource != null)
@@ -49,12 +54,52 @@ public class EnemyHP : Health
 
 		//particle hit effet
 		GlobalBulletImpactParticle.Instance.CreateBulletImpactAt(hit.point);
+
+		//die
+		if(currentHP <= 0f && !isDead)
+		{
+			currentHP = 0f;
+			CommonDie();
+			//die effect
+			switch(dieEffect)
+			{
+				case DieEffect.Sink:
+					StartCoroutine(SinkDieCo(hit));
+					break;
+				case DieEffect.Crush:
+					CrushDie();
+					break;
+				default:
+					break;
+			}
+		}
+	}
+		
+	void CrushDie()
+	{
+		Renderer rr = deathEffect.GetComponent<Renderer>();
+		if(rr != null)
+		{
+			Material newMat = new Material(rr.sharedMaterial);
+			newMat.color = this.bodyParts[0].GetComponent<Renderer>().sharedMaterial.color;
+			rr.material = newMat;
+		}
+
+		SelfDestroy sd = deathEffect.GetComponent<SelfDestroy>();
+		if(sd != null)
+		{
+			sd.delay = deathEffect.main.startLifetimeMultiplier + 0.1f;
+			sd.enabled = true;
+		}
+
+		deathEffect.transform.SetParent(null);
+		deathEffect.gameObject.SetActive(true);
+
+		Destroy(this.gameObject);
 	}
 
-	IEnumerator DieCo(RaycastHit hit)
+	IEnumerator SinkDieCo(RaycastHit hit)
 	{
-		isDead = true;
-		enemyAI.DeactiveSelf();
 		body.useGravity = true;
 		body.AddForce(-hit.normal * deathHitBackForce);
 
@@ -73,11 +118,27 @@ public class EnemyHP : Health
 			yield return null;
 		}
 
+		Destroy(this.gameObject);
+	}
+
+	void CommonDie()
+	{
+		isDead = true;
+		if(miniMapMark != null)
+		{
+			miniMapMark.gameObject.SetActive(false);
+		}
+
+		if(dieSound != null)
+		{
+			SoundManager.Instance.PlayClip2D(dieSound);
+		}
+
 		if(OnDeath != null)
 		{
 			OnDeath();
 		}
 
-		Destroy(this.gameObject);
+		enemyAI.DeactiveSelf();
 	}
 }
