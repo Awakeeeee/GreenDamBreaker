@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AIStateMachine))]
 public class EnemyHP : Health
 {
 	public GameObject[] bodyParts;	//optional
@@ -26,9 +25,11 @@ public class EnemyHP : Health
 	public float sinkSpeed;
 
 	float currentHP;
-	bool isDead;
 	AIStateMachine enemyAI;
 	Rigidbody body;
+
+	private bool isDead;
+	public bool IsDead { get {return isDead; }}
 
 	public event System.Action OnDeath;	//a non-static event which belongs to each enemy instance
 

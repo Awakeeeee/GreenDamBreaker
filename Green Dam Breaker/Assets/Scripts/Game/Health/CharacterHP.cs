@@ -32,11 +32,18 @@ public class CharacterHP : Health
 		}
 
 		//particle hit effet
-		GlobalBulletImpactParticle.Instance.CreateBulletImpactAt(hit.point);
+		if(hit.transform != null)
+		{
+			GlobalBulletImpactParticle.Instance.CreateBulletImpactAt(hit.point);
+		}
 	}
 
 	void CharacterDie()
 	{
-		Debug.Log("Character Die");
+		GetComponent<FPSCharacterController>().enabled = false;
+		GUIManager.Instance.ShowCursor();
+		SceneController.Instance.MyLoadScene("Scene_NavigationMenu");
+
+		this.enabled = false;
 	}
 }

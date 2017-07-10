@@ -21,15 +21,15 @@ public class FPSCharacterController : SingletonBase<FPSCharacterController>
 	public Camera cam;
 	public Transform hands;
 	[SerializeField] MouseTracker mouseTracker = new MouseTracker();
-	[SerializeField] bool useHeadBob;
+	[SerializeField] bool useHeadBob = true;
 	[SerializeField] BobCurveController headBob = new BobCurveController();
-	[SerializeField] bool useFOVEffect;
+	[SerializeField] bool useFOVEffect = true;
 	public FOVManipulater fovManipulater = new FOVManipulater();
 	[SerializeField] bool isWalking;
 	[SerializeField] float walkSpeed;
 	[SerializeField] float runSpeed;
-	[SerializeField] float jumpForce;
-	[SerializeField] float gravityMultiplier;
+	[SerializeField] float jumpForce = 10f;
+	[SerializeField] float gravityMultiplier = 2f;
 
 	[Space(10)]
 	[Header("Move Cadence Adjustment")]
@@ -39,9 +39,9 @@ public class FPSCharacterController : SingletonBase<FPSCharacterController>
 
 	[Space(10)]
 	[Header("Audio")]
-	[SerializeField] AudioClip[] footSteps;
-	[SerializeField] AudioClip jumpSFX;
-	[SerializeField] AudioClip landSFX;
+	public AudioClip[] footSteps;
+	public AudioClip jumpSFX;
+	public AudioClip landSFX;
 
 	CollisionFlags moveInfo;	//somehing return by CharacterController.Move, saving relevant info
 	CharacterController controller;	//Kinematic Unity built-in character controller, its functionality is abit like the PhysicsController in CorgiEngine
