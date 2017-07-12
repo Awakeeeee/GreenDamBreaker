@@ -1,4 +1,4 @@
 sceneSetups:
-- path: E:/GitRepos/UnityBasicsPractice/UnityBasicsPracitce/Assets/Clock/Clock.unity
+- path: Assets/Scenes/Scene_two.unity
   isLoaded: 1
   isActive: 1

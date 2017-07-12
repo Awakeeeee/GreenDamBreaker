@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -43,7 +43,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 998
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 115
+  controlID: 23
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_MinSize: {x: 234, y: 492}
   m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
-  controlID: 67
+  controlID: 44
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -345,14 +345,14 @@ MonoBehaviour:
     width: 999
     height: 927
   m_SceneLighting: 1
-  lastFramingTime: 19130.387389653006
-  m_2DMode: 1
+  lastFramingTime: 3111.7860715486463
+  m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 739.8803, y: 261.0175, z: 0}
+    m_Target: {x: 11.5, y: 1, z: 14.5}
     speed: 2
-    m_Value: {x: 739.8803, y: 261.0175, z: 0}
+    m_Value: {x: 11.5, y: 1, z: 14.5}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -367,26 +367,26 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 0
-      speed: 2
-      m_Value: 0
-    zGrid:
       m_Target: 1
       speed: 2
       m_Value: 1
+    zGrid:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
   m_Rotation:
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
+    m_Target: {x: -0.18717688, y: -0.6361298, z: 0.16297953, w: -0.7305763}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0, w: 1}
+    m_Value: {x: -0.18717687, y: -0.63612974, z: 0.16297951, w: -0.7305762}
   m_Size:
-    m_Target: 1026.2822
+    m_Target: 4.0416584
     speed: 2
-    m_Value: 1026.2822
+    m_Value: 4.0416584
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
-    m_Value: 1
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Value: 0
+  m_LastSceneViewRotation: {x: -0.10806675, y: -0.83482665, z: 0.1768984, w: -0.50999326}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -525,9 +525,9 @@ MonoBehaviour:
     height: 477
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: f2faffffdcfbffff00000000
+    m_SelectedIDs: e2ddffff
+    m_LastClickedID: -8734
+    m_ExpandedIDs: 4a84fdffe2ddffffe4ddffffb2dfffffaee2ffff46faffffdcfbffff00000000e25a0000a05c0000c4660000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -546,7 +546,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
   m_ExpandedScenes:
-  - Clock
+  - Scene_two
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -587,19 +587,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Sprites
+    - Assets/Scripts/Game/Manager
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Sprites
+  - Assets/Scripts/Game/Manager
   m_LastFoldersGridSize: 16
   m_LastProjectPath: E:\GitRepos\GreenDamBreaker\Green Dam Breaker
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 344}
-    m_SelectedIDs: 8c2a0000
-    m_LastClickedID: 10892
-    m_ExpandedIDs: 0000000074250000f02500008c260000762800003e2900006a2a0000742a000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 320}
+    m_SelectedIDs: f42d0000
+    m_LastClickedID: 11764
+    m_ExpandedIDs: 0000000074250000f02500008c260000762800003e290000e02900006a2a0000742a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 8e36000034320000e22400002e2900005c3400005a5200000e49feff78540000b03d000012270000aa530000a83d0000e43c0000c0460000ec6800002061000034250000446d0000422c00008a2900003a4c00009c5a00002462000044260000422600004e5e00004c2600005026000046260000f8650000845f00005e60000026260000cc2700002a2600002826000056280000ee2a0000e0410000366200005655f1ff6e26000056c3f7fff8f9fbff444b0000c43e0000323f00001466000010980000f0820000c02a000052260000e032000000000000f42f000086310000d62c00007829000080280000763b00007e3b0000ba2800004a7efcff78e20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -671,7 +671,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 9}
+      m_ClientGUIView: {fileID: 0}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -706,7 +706,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1003
     y: 589
-    width: 355
+    width: 515
     height: 429
 --- !u!114 &19
 MonoBehaviour:
