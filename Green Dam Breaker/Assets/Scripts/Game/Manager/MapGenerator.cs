@@ -25,11 +25,6 @@ public class MapGenerator : MonoBehaviour
 	private List<Coord> openCoords;
 	private Queue<Coord> shuffledOpenCoords;
 
-	//---test---
-	CustomStruct[] testStruct;
-	CustomClass[] testClasses;
-	Coord[] testCoords;
-
 	void Start()
 	{
 		GenerateMap();
@@ -194,30 +189,6 @@ public class MapGenerator : MonoBehaviour
 		Vector3 pos = new Vector3(-sizeX/2f + (coord.x + 0.5f) * scaler, 0f, -sizeY/2f + (coord.y + 0.5f) * scaler);
 		return pos;
 	}
-
-	void LogOut()
-	{
-		testStruct = new CustomStruct[]{new CustomStruct(tile.gameObject, null), new CustomStruct(obstacle.gameObject, null), new CustomStruct(obstacle.gameObject, null)};
-		Debug.Log("Struct with different reference type fields:");
-		foreach(CustomStruct c in testStruct)
-		{
-			Debug.Log(c.GetHashCode());
-		}
-
-		testCoords = new Coord[]{new Coord(0, 0), new Coord(1,1), new Coord(2,2)};
-		Debug.Log("Struct with different value type fields:");
-		foreach(Coord c in testCoords)
-		{
-			Debug.Log(c.GetHashCode());
-		}
-
-		testClasses = new CustomClass[]{new CustomClass(1, 1), new CustomClass(1,1), new CustomClass(2,2)};
-		Debug.Log("Class with different value type fields:");
-		foreach(CustomClass c in testClasses)
-		{
-			Debug.Log(c.GetHashCode());
-		}
-	}
 }
 
 [System.Serializable]
@@ -256,29 +227,5 @@ public struct Coord
 	public override string ToString ()
 	{
 		return string.Format ("[Coord({0},{1})]", x, y);
-	}
-}
-
-public class CustomClass
-{
-	int x;
-	int y;
-
-	public CustomClass(int _x, int _y)
-	{
-		x = _x;
-		y = _y;
-	}
-}
-
-public struct CustomStruct
-{
-	GameObject gg;
-	GameObject hh;
-
-	public CustomStruct(GameObject _g, GameObject _h)
-	{
-		gg = _g;
-		hh = _h;
 	}
 }

@@ -23,14 +23,6 @@ Gun parameters:
 /// </summary>
 public class Gun : MonoBehaviour 
 {
-	public enum GunType
-	{
-		Pistol,
-		Rifle,
-		ScatterGun,
-		SniperRifle
-	}
-
 	public enum MachineType
 	{
 		Automatic,
@@ -38,21 +30,31 @@ public class Gun : MonoBehaviour
 		OldStyle
 	}
 
-	public bool isAimingTarget;
-
-	public GunType guntype;
+	[Header("Category")]
 	public MachineType machineType;
+
+	[Header("Infomation")]
 	public string gunName;
 	[Multiline]
 	public string description;
 	public int ID;	//ID is the key to distinguish different guns
+
+	[Header("Parameter: Ammo")]
 	public int magazineSize;
 	public int ammoLeft;
+
+	[Header("Parameter: Shoot")]
 	public int fireSpeed;	//bullets per minute
 	public float damage;
 	public float initialVelocity;
 	public float effectiveRange;
 	public LayerMask shootableLayer;
+
+	[Header("Parameter: Aim")]
+	public float zoomScale = 0.5f;
+	public float zoomTime = 1.0f;
+
+	[Header("Model")]
 	public Transform model;
 	public Animator modelAnimator;
 	public Transform muzzle;
@@ -88,8 +90,20 @@ public class Gun : MonoBehaviour
 	protected Ray shootRay;
 	protected Reticle reticle;
 
+	//Migrate from 'WeaponAbility'
+	protected FPSCharacterController character;
+	protected Camera cam;
+	protected float originFOV;
+	protected float zoomSpeed;
+
 	protected virtual void Start()
 	{
+		character = FPSCharacterController.Instance;
+		cam = character.cam;
+		if(cam)
+		{
+			originFOV = cam.fieldOfView;
+		}
 	}
 
 	protected virtual void OnEnable()
@@ -149,6 +163,8 @@ public class Gun : MonoBehaviour
 				Fire();
 			}
 		}
+
+		ZoomView();
 	}
 
 	protected virtual void Fire()
@@ -189,6 +205,46 @@ public class Gun : MonoBehaviour
 		}
 	}
 
+	protected virtual void ZoomView()
+	{
+		if(character.fovManipulater.isChangingFOV)
+			return;
+
+		if(cam.fieldOfView == character.fovManipulater.originalFOV + character.fovManipulater.changeAmount)
+			return;
+
+		zoomSpeed = Mathf.Abs(originFOV - originFOV * zoomScale) / zoomTime;
+
+		if(Input.GetButton("Fire2"))
+		{
+			//when fully complete zoom
+			if(Mathf.Abs(cam.fieldOfView - originFOV * zoomScale) <= 0.01f)
+			{
+				cam.fieldOfView = originFOV * zoomScale;
+
+				return;
+			}
+
+			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV * zoomScale, zoomSpeed * Time.deltaTime);
+			cam.fieldOfView = newFOV;
+
+			return;
+		}
+
+		//if not holding zoom button
+		if(cam.fieldOfView != originFOV)
+		{
+			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV, zoomSpeed * Time.deltaTime);
+			cam.fieldOfView = newFOV;
+
+			//fully zoomed back
+			if(Mathf.Abs(cam.fieldOfView - originFOV) <= 0.01f)
+			{
+				cam.fieldOfView = originFOV;
+			}
+		}
+	}
+
 	protected virtual void ShellPopOut()
 	{
 		GameObject shell = shells.GetPooledObj();
@@ -215,7 +271,7 @@ public class Gun : MonoBehaviour
 		}
 	}
 
-	void Reload()
+	protected virtual void Reload()
 	{
 		isReloading = true;
 		modelAnimator.SetTrigger("reload");

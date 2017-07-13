@@ -7,6 +7,8 @@ public class WaveSpawner : MonoBehaviour
 	public Wave[] waves;
 	public EnemyHP enemyPrefab;
 
+	public bool spawnerFinish = false;
+
 	private Wave currentWave;
 	private int currentWaveNumber;
 	private int waveAliveEnemyNumber;	//when wave aline enemy count is 0, start next wave
@@ -19,6 +21,7 @@ public class WaveSpawner : MonoBehaviour
 	{
 		mapG = FindObjectOfType<MapGenerator>();
 		currentWaveNumber = 0;
+		spawnerFinish = false;
 		NextWave();
 	}
 
@@ -76,8 +79,7 @@ public class WaveSpawner : MonoBehaviour
 			waveRemainingEnemyNumber = currentWave.waveEnemyTotal;
 			nextSpawnTime = Time.time + currentWave.spawnInterval;
 		}else{
-			Debug.LogWarning("All enemy from this spawner has been spawned.");
-			this.gameObject.SetActive(false);
+			spawnerFinish = true;
 		}
 	}
 }

@@ -29,7 +29,7 @@ public abstract class LevelMissionBase : ScriptableObject
 
 	protected abstract void InternalOnDisable();
 
-	protected abstract void CheckComplete();
+	public abstract void CheckComplete();
 }
 
 #if UNITY_EDITOR

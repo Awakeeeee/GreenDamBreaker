@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Script is named the same as gun name.
-public class TheBlueBond : Gun 
+public class Pistol : Gun 
 {
 
 }

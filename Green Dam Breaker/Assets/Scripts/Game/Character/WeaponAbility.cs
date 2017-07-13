@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//OBSOLETE ------ Zoom now in Gun
+
 //The ability to use weapon
 public class WeaponAbility : CharacterAbility
 {

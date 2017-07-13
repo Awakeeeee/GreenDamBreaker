@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUIManager : PersistentSingletonBase<GUIManager>
+public class GUIManager : SingletonBase<GUIManager>
 {
 	[Header("Health UI")]
 	public CanvasGroup HealthPanel;
@@ -28,8 +28,13 @@ public class GUIManager : PersistentSingletonBase<GUIManager>
 	public Text tipTitle;
 	public Text tipDescription;
 
+	[Header("Game Play")]
+	public CanvasGroup sniperSightMask;
+
 	void Start()
 	{
+		sniperSightMask.alpha = 0f;
+
 		HideToolTip();
 	}
 

@@ -22,7 +22,7 @@ public class DefendArea : LevelMissionBase
 		
 	}
 
-	protected override void CheckComplete ()
+	public override void CheckComplete ()
 	{
 		
 	}

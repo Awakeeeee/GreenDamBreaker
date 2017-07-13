@@ -20,7 +20,7 @@ public class KillTarget : LevelMissionBase
 		
 	}
 
-	protected override void CheckComplete ()
+	public override void CheckComplete ()
 	{
 		return;
 	}

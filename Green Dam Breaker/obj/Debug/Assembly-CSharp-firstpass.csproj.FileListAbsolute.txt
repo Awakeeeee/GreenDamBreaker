@@ -59,6 +59,5 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\nunit.framework.xml
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.Analytics.xml
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.HoloLens.xml
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.VR.xml
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-firstpass.pdb

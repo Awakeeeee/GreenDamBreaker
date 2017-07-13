@@ -7,6 +7,19 @@ public class PersonalIntelligentMachine : SingletonBase<PersonalIntelligentMachi
 	//int is gun ID, gun is the gameObject
 	public Dictionary<int, Gun> gunDictionry;
 
+	public Gun CurrentGun{
+		get{
+			Gun[] existingGuns = FPSCharacterController.Instance.hands.GetComponentsInChildren<Gun>();
+			for(int i = 0; i < existingGuns.Length; i++)
+			{
+				if(existingGuns[i].isActiveAndEnabled)
+					return existingGuns[i];
+			}
+
+			return null;
+		}
+	}
+
 	void Awake()
 	{
 		gunDictionry = new Dictionary<int, Gun>();

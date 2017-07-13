@@ -19,7 +19,7 @@ public class GetItem : LevelMissionBase
 		InspectObject.pickEvent -= OnPickupKeyItem;
 	}
 
-	protected override void CheckComplete ()
+	public override void CheckComplete ()
 	{
 		//this mission use the event to check complete
 	}

@@ -5,9 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
-public class SceneController : SingletonBase<SceneController>
+public class SceneController : PersistentSingletonBase<SceneController>
 {
 	public CanvasGroup fadePanel;
+	public CanvasGroup overallBackground;
+	public Text overallPrompt;
+	private Image overallBgImage;
 	public string firstSceneToLoad;
 
 	public float fadeTime = 1.0f;
@@ -18,8 +21,13 @@ public class SceneController : SingletonBase<SceneController>
 
 	IEnumerator Start()
 	{
+		overallBgImage = overallBackground.GetComponent<Image>();
+
 		fadePanel.alpha = 1.0f;
 		fadePanel.blocksRaycasts = true;
+
+		overallBgImage.fillAmount = 0f;
+		overallBackground.alpha = 0f;
 
 		yield return StartCoroutine(LoadAndActiveScene(firstSceneToLoad));
 
@@ -27,17 +35,20 @@ public class SceneController : SingletonBase<SceneController>
 	}
 
 	//External point
-	public void MyLoadScene(string sceneName)
+	public void MyLoadScene(string sceneName, bool fadeIn = true, bool fadeOut = true, bool isGameLevel = false)
 	{
 		if(isFading)
 			return;
 		
-		StartCoroutine(LoadSceneProcess(sceneName));
+		StartCoroutine(LoadSceneProcess(sceneName, fadeIn, fadeOut, isGameLevel));
 	}
 
-	IEnumerator LoadSceneProcess(string sceneName)
+	IEnumerator LoadSceneProcess(string sceneName, bool fadeIn, bool fadeOut, bool isGameLevel)
 	{
-		yield return StartCoroutine(ScreenFade(1f));
+		if(fadeIn)
+		{
+			yield return StartCoroutine(ScreenFade(1f));	
+		}
 
 		if(UnLoadSceneEvent != null)
 		{
@@ -53,7 +64,16 @@ public class SceneController : SingletonBase<SceneController>
 			LoadSceneEvent();
 		}
 
-		yield return StartCoroutine(ScreenFade(0f));
+		if(fadeOut)
+		{
+			fadePanel.alpha = 1f;
+			yield return StartCoroutine(ScreenFade(0f));
+		}
+
+		if(isGameLevel)
+		{
+			yield return StartCoroutine(SceneStartFade());
+		}
 	}
 
 	IEnumerator LoadAndActiveScene(string sceneName)
@@ -82,5 +102,65 @@ public class SceneController : SingletonBase<SceneController>
 
 		fadePanel.blocksRaycasts = false;
 		isFading = false;
+	}
+
+	IEnumerator SceneStartFade()
+	{
+		float percent = 0f;
+
+		while(percent < 1f)
+		{
+			float x = Mathf.Lerp(0f, 1f, percent);
+			overallBgImage.fillAmount = x;
+			overallBackground.alpha = x;
+
+			percent += Time.deltaTime * 2f;
+			yield return null;
+		}
+
+		overallBgImage.fillAmount = 1f;
+		overallBackground.alpha = 1f;
+
+		yield return new WaitForSeconds(1.5f);
+
+		overallBgImage.fillAmount = 0f;
+		overallBackground.alpha = 0f;
+	}
+
+	//2 options:
+	//fail end: prompt fade in with screen fade balck
+	//success end: prompt fade in without screen fade black
+	public IEnumerator SceneEndFade(bool isFailEnd)
+	{
+		float percent = 0f;
+
+		while(percent < 1f)
+		{
+			float x = Mathf.Lerp(0f, 1f, percent);
+			overallBackground.alpha = x;
+			if(isFailEnd)
+			{
+				fadePanel.alpha = x;
+			}
+
+			percent += Time.deltaTime;
+			yield return null;
+		}
+
+		overallBackground.alpha = 1;
+		if(isFailEnd)
+		{
+			fadePanel.alpha = 1f;
+		}
+
+		yield return new WaitForSeconds(2f);
+
+		overallBackground.alpha = 0f;
+	}
+
+	public void SetOverallPropmpt(string s, Color textCol)
+	{
+		overallPrompt.color = textCol;
+		overallPrompt.text = s;
 	}
 }
