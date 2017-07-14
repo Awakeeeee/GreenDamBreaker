@@ -114,3 +114,5 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.iOS.Ext
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.csprojResolveAssemblyReference.cache
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.pdb
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Messaging.dll
