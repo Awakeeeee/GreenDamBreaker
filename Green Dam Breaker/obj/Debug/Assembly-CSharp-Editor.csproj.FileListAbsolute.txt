@@ -58,13 +58,16 @@ D:\GitHub Repos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Edit
 D:\GitHub Repos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.dll
 D:\GitHub Repos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.pdb
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Assembly-CSharp-Editor.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\nunit.framework.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.UI.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Assembly-CSharp-Editor.pdb
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Facebook.Unity.Settings.dll
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\nunit.framework.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.Advertisements.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.Analytics.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.Android.Extensions.dll
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.Graphs.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.HoloLens.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.Networking.dll
@@ -75,11 +78,9 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.UI.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.VR.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.WindowsStandalone.Extensions.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.Analytics.dll
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.HoloLens.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.Networking.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.TestRunner.dll
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.UI.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEngine.VR.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Mono.Cecil.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Unity.SerializationLogic.dll
@@ -88,6 +89,7 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\ICSharpCode.NRefact
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Unity.UNetWeaver.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Messaging.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Unity.CecilTools.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Mono.Cecil.Pdb.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
@@ -114,5 +116,3 @@ E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\UnityEditor.iOS.Ext
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.csprojResolveAssemblyReference.cache
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.dll
 E:\GitRepos\GreenDamBreaker\Green Dam Breaker\obj\Debug\Assembly-CSharp-Editor.pdb
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.dll
-E:\GitRepos\GreenDamBreaker\Green Dam Breaker\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Messaging.dll
