@@ -266,8 +266,7 @@ public class Gun : MonoBehaviour
 		if(currentAmmo <= 0 && ammoLeft > 0)
 		{
 			currentAmmo = 0;
-			isReloading = true;
-			modelAnimator.SetTrigger("reload");
+			Reload();
 		}
 	}
 
