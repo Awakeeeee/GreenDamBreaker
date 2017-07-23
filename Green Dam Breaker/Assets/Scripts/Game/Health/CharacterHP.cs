@@ -14,7 +14,7 @@ public class CharacterHP : Health
 		base.OnEnable();
 		isDead = false;
 		currentHP = maxHP;
-		GUIManager.Instance.UpdateText(GUIManager.Instance.HealthText, maxHP.ToString());
+		GUIManager.Instance.HealthBar.ResetBar(maxHP, 1.0f);
 	}
 
 	public override void TakeDamage(RaycastHit hit, float damage)
@@ -29,7 +29,7 @@ public class CharacterHP : Health
 			currentHP = 0f;
 			StartCoroutine(CharacterDie());
 		}
-		GUIManager.Instance.UpdateText(GUIManager.Instance.HealthText, currentHP.ToString());
+		GUIManager.Instance.HealthBar.UpdateHP(damage);
 
 		//sfx
 		if(getShootSound != null && audioSource != null)

@@ -7,7 +7,7 @@ public class GUIManager : SingletonBase<GUIManager>
 {
 	[Header("Health UI")]
 	public CanvasGroup HealthPanel;
-	public Text HealthText;
+	public ElaborateHPBar HealthBar;
 
 	[Header("Ammo UI")]
 	public CanvasGroup AmmoPanel;

@@ -6,6 +6,13 @@ using UnityEngine.EventSystems;
 public class SniperRifle : Gun
 {
 	private bool inSniperSight = false;
+	private CanvasGroup reticlePrompt;
+
+	protected override void OnEnable ()
+	{
+		base.OnEnable ();
+		reticlePrompt = reticle.wposCanvas.GetComponent<CanvasGroup>();
+	}
 
 	protected override void Update ()
 	{
@@ -63,7 +70,7 @@ public class SniperRifle : Gun
 
 		if(Input.GetButton("Fire2"))
 		{
-			inSniperSight = true;
+			IntoSniperSight();
 
 			//when fully complete zoom
 			if(Mathf.Abs(cam.fieldOfView - originFOV * zoomScale) <= 0.01f)
@@ -91,22 +98,25 @@ public class SniperRifle : Gun
 			//fully zoomed back
 			if(Mathf.Abs(cam.fieldOfView - originFOV) <= 0.01f)
 			{
-				cam.fieldOfView = originFOV;
-				GUIManager.Instance.sniperSightMask.alpha = 0f;
-				inSniperSight = false;
+				OutOfSniperSight();
 			}
 		}
 	}
 
+	void IntoSniperSight()
+	{
+		inSniperSight = true;
+		reticlePrompt.alpha = 0.0f;
+	}
 	void OutOfSniperSight()
 	{
 		cam.fieldOfView = originFOV;
 		OutOfSiperSightWithoutCam();
 	}
-
 	void OutOfSiperSightWithoutCam()
 	{
 		GUIManager.Instance.sniperSightMask.alpha = 0f;
+		reticlePrompt.alpha = 1.0f;
 		inSniperSight = false;
 	}
 }

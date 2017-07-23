@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ElaborateHPBar : MonoBehaviour
 {
 	public float shortFreezeTime = 0.1f;
-	public float shrunkTime = 0.5f;
+	public float shrunkSpeed = 0.5f;		//a multipiler
 
 	public Image background;
 	public Image foreground;
@@ -15,63 +15,66 @@ public class ElaborateHPBar : MonoBehaviour
 	[SerializeField]private float barLength;
 	[SerializeField]private float maxHp;
 	[SerializeField]private float currentHp;
-	private float hpPivot;
+	private float hpPivot;	//the current percent of life, floating btw 0 ~ 1
+
+	//flags
+	private bool isShrunking = false;
 
 	void Start()
 	{
-		InitHpBar(1f);
+		ResetBar(100, 1f);
 	}
 
-	public void Setup(float _maxHp)
+	public void ResetBar(float _maxHp, float startHealthPercent)
 	{
 		maxHp = _maxHp;
-	}
 
-	public void InitHpBar(float startHealthPercent)
-	{
 		startHealthPercent = Mathf.Clamp(startHealthPercent, 0f, 1f);
 		currentHp = maxHp * startHealthPercent;
 
 		hpPivot = startHealthPercent;
 		foreground.fillAmount = hpPivot;
 		hurtground.fillAmount = hpPivot;
+
+		isShrunking = false;
+		StopAllCoroutines();
 	}
 
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.J))
-		{
-			UpdateHP(10f);
-		}
+		//TEST
+//		if(Input.GetKeyDown(KeyCode.J))
+//		{
+//			UpdateHP(10f);
+//		}
 	}
 
 	public void UpdateHP(float reduce)
-	{
+	{			
 		currentHp -= reduce;
 		currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
 
 		hpPivot = currentHp / maxHp;
-		foreground.fillAmount = hpPivot;
-		float hurtAmount = hpPivot;
 
-		StartCoroutine(HurtBarShrunkCo(hurtAmount));
+		foreground.fillAmount = hpPivot;		//fore ground bar shrunk immediately
+		StartCoroutine(HurtBarShrunkCo());		//hurt ground bar shrunk gradually and follows fore ground bar
 	}
 
-	IEnumerator HurtBarShrunkCo(float toAmount)
+	IEnumerator HurtBarShrunkCo()
 	{
-		float timer = 0.0f;
-		float shrunkSpeed = (hurtground.fillAmount - toAmount) / shrunkTime;
+		if(isShrunking)
+			yield break;
 
+		isShrunking = true;
 		yield return new WaitForSeconds(shortFreezeTime);
 
-		while(timer < shrunkTime)
+		while(!Mathf.Approximately(foreground.fillAmount, hurtground.fillAmount))
 		{
-			hurtground.fillAmount = Mathf.MoveTowards(hurtground.fillAmount, toAmount, shrunkTime * Time.deltaTime);
-
-			timer += Time.deltaTime;
+			hurtground.fillAmount = Mathf.MoveTowards(hurtground.fillAmount, foreground.fillAmount, shrunkSpeed * Time.deltaTime);		//let hurt bar follow fore bar
 			yield return null;
 		}
 
-		hurtground.fillAmount = toAmount;
+		hurtground.fillAmount = foreground.fillAmount;
+		isShrunking = false;
 	}
 }

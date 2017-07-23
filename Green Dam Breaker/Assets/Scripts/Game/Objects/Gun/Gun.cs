@@ -185,7 +185,7 @@ public class Gun : MonoBehaviour
 		//recoil effect
 		if(useScriptedRecoil)
 		{
-			StartCoroutine(recoilEffect.DoRecoil(model.transform));	
+			StartCoroutine(recoilEffect.DoRecoil(model.transform));
 		}else{
 			modelAnimator.SetTrigger("recoil");
 		}

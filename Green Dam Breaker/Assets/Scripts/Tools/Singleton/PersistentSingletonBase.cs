@@ -17,7 +17,7 @@ public class PersistentSingletonBase<T> : MonoBehaviour
                 instance = FindObjectOfType<T>();
                 if (!instance)
                 {
-                    Debug.LogError("Create persistent singleton error. No such object of in Scene.");
+					Debug.LogError("Create persistent singleton error. No such object of in Scene.");
                 }
             }
             return instance;
