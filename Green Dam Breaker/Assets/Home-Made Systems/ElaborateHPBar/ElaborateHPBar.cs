@@ -5,13 +5,20 @@ using UnityEngine.UI;
 
 public class ElaborateHPBar : MonoBehaviour
 {
+	[Header("Setting")]
 	public float shortFreezeTime = 0.1f;
 	public float shrunkSpeed = 0.5f;		//a multipiler
+	public bool showText;
 
+	[Header("UI Components")]
 	public Image background;
 	public Image foreground;
 	public Image hurtground;
+	public CanvasGroup textGroup;
+	public Text currentHPText;
+	public Text fullHPText;
 
+	[Header("Data Monitor")]
 	[SerializeField]private float barLength;
 	[SerializeField]private float maxHp;
 	[SerializeField]private float currentHp;
@@ -22,7 +29,7 @@ public class ElaborateHPBar : MonoBehaviour
 
 	void Start()
 	{
-		ResetBar(100, 1f);
+		//ResetBar(100, 1f);
 	}
 
 	public void ResetBar(float _maxHp, float startHealthPercent)
@@ -37,6 +44,14 @@ public class ElaborateHPBar : MonoBehaviour
 		hurtground.fillAmount = hpPivot;
 
 		isShrunking = false;
+
+		if(showText)
+		{
+			InitText(currentHp, maxHp);
+		}else{
+			HideText();
+		}
+
 		StopAllCoroutines();
 	}
 
@@ -53,10 +68,14 @@ public class ElaborateHPBar : MonoBehaviour
 	{			
 		currentHp -= reduce;
 		currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
-
 		hpPivot = currentHp / maxHp;
-
 		foreground.fillAmount = hpPivot;		//fore ground bar shrunk immediately
+
+		if(showText)
+		{
+			UpdateText(currentHp);
+		}
+
 		StartCoroutine(HurtBarShrunkCo());		//hurt ground bar shrunk gradually and follows fore ground bar
 	}
 
@@ -76,5 +95,25 @@ public class ElaborateHPBar : MonoBehaviour
 
 		hurtground.fillAmount = foreground.fillAmount;
 		isShrunking = false;
+	}
+
+	void InitText(float _currentHP, float _maxHP)
+	{
+		textGroup.alpha = 1.0f;
+		UpdateText(_currentHP);
+		fullHPText.text = " / " + _maxHP.ToString();
+	}
+	void UpdateText(float _currentHP)
+	{
+		currentHPText.text = _currentHP.ToString();
+	}
+	public void HideText()
+	{
+		if(textGroup == null)
+			return;
+		
+		textGroup.alpha = 0.0f;
+		UpdateText(0.0f);
+		fullHPText.text = 0.0f.ToString();
 	}
 }
