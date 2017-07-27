@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ElaborateHPBar : MonoBehaviour
 {
 	[Header("Setting")]
+	public float barLength;
 	public float shortFreezeTime = 0.1f;
 	public float shrunkSpeed = 0.5f;		//a multipiler
 	public bool showText;
@@ -15,11 +16,12 @@ public class ElaborateHPBar : MonoBehaviour
 	public Image foreground;
 	public Image hurtground;
 	public CanvasGroup textGroup;
-	public Text currentHPText;
-	public Text fullHPText;
+	public Text hpPercent;
+
+	[Header("Damage text jump out(For Wpos HP bar)")]
+	public Text jumpOutText;
 
 	[Header("Data Monitor")]
-	[SerializeField]private float barLength;
 	[SerializeField]private float maxHp;
 	[SerializeField]private float currentHp;
 	private float hpPivot;	//the current percent of life, floating btw 0 ~ 1
@@ -29,7 +31,7 @@ public class ElaborateHPBar : MonoBehaviour
 
 	void Start()
 	{
-		//ResetBar(100, 1f);
+		ResetBar(100, 1f);
 	}
 
 	public void ResetBar(float _maxHp, float startHealthPercent)
@@ -46,11 +48,9 @@ public class ElaborateHPBar : MonoBehaviour
 		isShrunking = false;
 
 		if(showText)
-		{
 			InitText(currentHp, maxHp);
-		}else{
+		else
 			HideText();
-		}
 
 		StopAllCoroutines();
 	}
@@ -58,14 +58,20 @@ public class ElaborateHPBar : MonoBehaviour
 	void Update()
 	{
 		//TEST
-//		if(Input.GetKeyDown(KeyCode.J))
-//		{
-//			UpdateHP(10f);
-//		}
+		if(Input.GetKeyDown(KeyCode.J))
+		{
+			UpdateHP(10f);
+		}
 	}
 
 	public void UpdateHP(float reduce)
-	{			
+	{	
+		if(jumpOutText != null && currentHp > 0f)
+		{
+			jumpOutText.text = reduce.ToString();
+			jumpOutText.GetComponent<Animator>().SetTrigger("jumpOut");
+		}
+
 		currentHp -= reduce;
 		currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
 		hpPivot = currentHp / maxHp;
@@ -97,15 +103,15 @@ public class ElaborateHPBar : MonoBehaviour
 		isShrunking = false;
 	}
 
+	//------Hp text display--------
 	void InitText(float _currentHP, float _maxHP)
 	{
 		textGroup.alpha = 1.0f;
 		UpdateText(_currentHP);
-		fullHPText.text = " / " + _maxHP.ToString();
 	}
 	void UpdateText(float _currentHP)
 	{
-		currentHPText.text = _currentHP.ToString();
+		hpPercent.text = ((_currentHP / maxHp) * 100).ToString("F0") + "%";
 	}
 	public void HideText()
 	{
@@ -114,6 +120,5 @@ public class ElaborateHPBar : MonoBehaviour
 		
 		textGroup.alpha = 0.0f;
 		UpdateText(0.0f);
-		fullHPText.text = 0.0f.ToString();
 	}
 }

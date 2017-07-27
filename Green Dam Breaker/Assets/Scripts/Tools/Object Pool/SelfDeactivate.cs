@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class SelfDeactivate : MonoBehaviour 
 {
+	public enum DelayMode
+	{
+		StartToCount,
+		CallByAnimation
+	}
+	public DelayMode mode;
+
 	public float time;
 
 	void Start()
 	{
-		Invoke("Deactivate", time);
+		if(mode == DelayMode.StartToCount)
+			Invoke("Deactivate", time);
 	}
 
-	void Deactivate()
+	public void Deactivate()
 	{
-		//TODO
+		this.gameObject.SetActive(false);
 	}
 }

@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class MiniMap : MonoBehaviour 
 {
-	public enum MiniMapType
-	{
-		Whole,
-		Track,
-		TrackUnderPlayerView
-	}
-
-	public MiniMapType miniMapType;
+	public bool trackPlayer;
+	public Vector3 trackOffset;
 
 	private FPSCharacterController player;
 
@@ -22,9 +16,9 @@ public class MiniMap : MonoBehaviour
 
 	void Update()
 	{
-		if(miniMapType == MiniMapType.Track)
+		if(trackPlayer)
 		{
-			this.transform.position = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z);
+			this.transform.position = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z) + trackOffset;
 		}
 	}
 //	public Material miniMapMat;

@@ -16,7 +16,7 @@ public class CameraMonoShake : MonoBehaviour
     {
 		//this should be Main Camera
 		shakeObj = this.transform;
-		originalPos = this.transform.position;
+		originalPos = this.transform.localPosition;
 
         goShake = false;
         isShaking = false;

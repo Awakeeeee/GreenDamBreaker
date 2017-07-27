@@ -17,7 +17,7 @@ public class CameraShaker : MonoBehaviour
     {
 		//most time this should be the camera
 		shakeObj = this.transform;
-		originalPos = this.transform.position;
+		originalPos = this.transform.localPosition;
     }
 
     void OnEnable()
