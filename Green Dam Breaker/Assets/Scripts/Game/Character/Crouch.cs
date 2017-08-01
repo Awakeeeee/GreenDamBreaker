@@ -41,9 +41,21 @@ public class Crouch : CharacterAbility
 		if(!toggle)
 			return;
 
-		//TODO for now character cannot space+ctrl, there is conflict with state
 		if(FPSCharacterController.Instance.characterState == FPSCharacterController.CharacterState.Jumping)
+		{
+			if(Input.GetButtonDown("Crouch"))
+			{
+				SetColliderSizeCrouch();
+				view.localPosition = new Vector3(view.localPosition.x, targetViewHorizon, view.localPosition.z);	//set view height directly
+			}
+			if(Input.GetButtonUp("Crouch"))
+			{
+				ResetToStand();
+			}
+
+			//If press crouch while jumping, use the above logic to replace the logic below
 			return;
+		}
 
 		//collider size down
 		if(Input.GetButtonDown("Crouch"))
@@ -52,41 +64,49 @@ public class Crouch : CharacterAbility
 			FPSCharacterController.Instance.SetMoveSpeed(crouchMoveSpeed, crouchMoveSpeed);
 			isCrouching = true;
 
-			cc.height -= colliderSizeLower;
-			cc.center = new Vector3(originalColliderCenter.x, originalColliderCenter.y - colliderSizeLower / 2f, originalColliderCenter.z);
+			SetColliderSizeCrouch();
 		}
 
 		//transform down
 		if(isCrouching)
 		{
-			float viewHorizon = Mathf.Lerp(view.localPosition.y, targetViewHorizon, timer / crouchTime);
-			timer += Time.deltaTime;
-			if(Mathf.Abs(view.localPosition.y - targetViewHorizon) < 0.01f)
-			{
-				view.localPosition = new Vector3(view.localPosition.x, targetViewHorizon, view.localPosition.z);
-				timer = crouchTime;
-				isCrouching = false;
-			}else{
-				view.localPosition = new Vector3(view.localPosition.x, viewHorizon, view.localPosition.z);
-			}
+			SetViewHeightCrouch();
 		}
 
 		if(Input.GetButtonUp("Crouch"))
 		{
 			FPSCharacterController.Instance.characterState = FPSCharacterController.CharacterState.Idle;
-			FPSCharacterController.Instance.ResetMoveSpeed();
-			ResetViewHeight();
-
-			cc.center = originalColliderCenter;
-			cc.height = originalColliderHeight;
-			isCrouching = false;
-			timer = 0.0f;
+			ResetToStand();
 		}
 	}
 
-	void ResetViewHeight()
+	void SetColliderSizeCrouch()
 	{
+		cc.height = originalColliderHeight - colliderSizeLower;
+		cc.center = new Vector3(originalColliderCenter.x, originalColliderCenter.y - colliderSizeLower / 2f, originalColliderCenter.z);
+	}
+	void SetViewHeightCrouch()
+	{
+		float viewHorizon = Mathf.Lerp(view.localPosition.y, targetViewHorizon, timer / crouchTime);
+		timer += Time.deltaTime;
+
+		if(Mathf.Abs(view.localPosition.y - targetViewHorizon) < 0.01f)
+		{
+			view.localPosition = new Vector3(view.localPosition.x, targetViewHorizon, view.localPosition.z);
+			timer = crouchTime;
+			isCrouching = false;
+		}else{
+			view.localPosition = new Vector3(view.localPosition.x, viewHorizon, view.localPosition.z);
+		}
+	}
+	void ResetToStand()
+	{
+		FPSCharacterController.Instance.ResetMoveSpeed();
+		cc.center = originalColliderCenter;
+		cc.height = originalColliderHeight;
 		view.localPosition = new Vector3(view.localPosition.x, originalViewHorinzon, view.localPosition.z);
+		isCrouching = false;
+		timer = 0.0f;
 	}
 
 	/*

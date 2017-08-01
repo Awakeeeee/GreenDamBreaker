@@ -94,7 +94,16 @@ public class FPSCharacterController : SingletonBase<FPSCharacterController>
 			nextStepPlace += footStepLength; //if not add one step, landing sound and a foot step sound will play at the same time(if character traveled more than one step dist in air)
 			frameMovement.y = 0f;	//TODO what is this
 			//isJumping = false;
-			characterState = CharacterState.Idle;
+
+			//TODO complementary code to fix jump crouch problem. This increases coupling.
+			Crouch crouchAbility = GetComponent<Crouch>();
+			if(crouchAbility != null && Input.GetButton("Crouch"))
+			{
+				characterState = CharacterState.Crouching;
+				SetMoveSpeed(crouchAbility.crouchMoveSpeed, crouchAbility.crouchMoveSpeed);	
+			}else{
+				characterState = CharacterState.Idle;
+			}
 		}
 
 		//if player start jumping this frame
