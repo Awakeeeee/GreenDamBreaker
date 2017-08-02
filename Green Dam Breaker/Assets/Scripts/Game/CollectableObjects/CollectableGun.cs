@@ -4,39 +4,20 @@ using UnityEngine;
 
 public class CollectableGun : MonoBehaviour, ICollectable
 {
-	public Gun gunPrefab;
-
-	Gun[] existingGuns = new Gun[0];
-	Transform playerHands;
-	bool checkHave;
+	public Gun gun;
 
 	void OnEnable()
 	{
-		playerHands = FPSCharacterController.Instance.hands;
-		checkHave = false;
+	}
+
+	void Update()
+	{
+		transform.Rotate(new Vector3(45f, 45, 45f) * Time.deltaTime);
 	}
 
 	public void Collect()
 	{
-		existingGuns = playerHands.GetComponentsInChildren<Gun>(true);
-		foreach(Gun g in existingGuns)
-		{
-			if(g.ID == gunPrefab.ID)
-			{
-				checkHave = true;
-				//TODO already have it , decide what to do
-				//collect ammo? just cannot pick up?
-			}
-		}
-
-		if(!checkHave)
-		{
-			Gun newGun = Instantiate(gunPrefab, playerHands) as Gun;
-			newGun.gameObject.SetActive(false);
-			PersonalIntelligentMachine.Instance.AddGunToCollection(newGun);
-			Destroy(this.gameObject);
-		}
-
-		checkHave = false;
+		PersonalIntelligentMachine.Instance.AddGunToCollection(gun);
+		Destroy(this.gameObject);
 	}
 }

@@ -10,7 +10,7 @@ public class ControlUI : CharacterAbility
 
 		if(Input.GetButtonDown("IntelligentMachineUI"))
 		{
-			GUIManager.Instance.ToggleIntelligentMachine();
+			PersonalIntelligentMachine.Instance.ToggleIntelligentMachine();
 		}
 	}
 }

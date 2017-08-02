@@ -13,15 +13,6 @@ public class GUIManager : SingletonBase<GUIManager>
 	public CanvasGroup AmmoPanel;
 	public Text CurrentAmmoText, FullAmmoText;
 
-	[Header("Intelligent Machine UI")]
-	public CanvasGroup imPanel;
-	public Animator imAnimator;
-	public CanvasGroup mainPanel;
-	public CanvasGroup armoryPanel;
-	public RectTransform armoryContent;
-	private CollectionButton[] gunCollection;
-	private bool imOpen = false;
-
 	[Header("Inventory")]
 	public Inventory playerInventory;
 	public CanvasGroup tooltip;
@@ -34,7 +25,6 @@ public class GUIManager : SingletonBase<GUIManager>
 	void Start()
 	{
 		sniperSightMask.alpha = 0f;
-
 		HideToolTip();
 	}
 
@@ -61,40 +51,6 @@ public class GUIManager : SingletonBase<GUIManager>
 		cg.interactable = true;
 		cg.blocksRaycasts = true;
 		cg.alpha = 1.0f;
-	}
-
-	public void ToggleIntelligentMachine()
-	{
-		if(imOpen)
-		{
-			imOpen = false;
-			imAnimator.SetTrigger("Deactivate");
-			HideCursor();
-		}else{
-			ActivateCanvasGroup(mainPanel);
-			DeactivateCanvasGroup(armoryPanel);
-			//TODO deactivate other panels
-			imOpen = true;
-			imAnimator.SetTrigger("Activate");
-			ShowCursor();
-		}
-	}
-
-	public void SetupCollectionUI()
-	{
-		gunCollection = armoryContent.GetComponentsInChildren<CollectionButton>();
-	}
-
-	public void SetCollectionButton(Gun gunInfo)
-	{
-		for(int i = 0; i< gunCollection.Length; i++)
-		{
-			if(!gunCollection[i].TogglePointerDown)
-			{
-				gunCollection[i].AddGun(gunInfo);
-				return;
-			}
-		}
 	}
 
 	public void ShowToolTip(string tip, string desc)

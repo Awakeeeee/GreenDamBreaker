@@ -10,8 +10,8 @@ public class CollectionButton : MonoBehaviour, IPointerClickHandler
 	public Image btnImage;
 	public int attachedGunID = -1;
 
-	private bool togglePointerDown = false;
-	public bool TogglePointerDown{get{return togglePointerDown;}}
+	private bool hasBeenSet = false;	//if the button has connected to gun collection data
+	public bool HasBeenSet{get{return hasBeenSet;}}
 
 	void Start()
 	{
@@ -20,21 +20,21 @@ public class CollectionButton : MonoBehaviour, IPointerClickHandler
 
 	public void AddGun(Gun gunInfo)
 	{
-		togglePointerDown = true;
+		hasBeenSet = true;
 		btnText.text = gunInfo.gunName;
 		attachedGunID = gunInfo.ID;
 	}
 
 	public void ClearBtn()
 	{
-		togglePointerDown = false;
+		hasBeenSet = false;
 		btnText.text = "Empty Btn";
 		attachedGunID = -1;
 	}
 
 	public void OnPointerClick(PointerEventData e)
 	{
-		if(!togglePointerDown)
+		if(!hasBeenSet)
 			return;
 
 		PersonalIntelligentMachine.Instance.SelectGunFromCollection(attachedGunID);

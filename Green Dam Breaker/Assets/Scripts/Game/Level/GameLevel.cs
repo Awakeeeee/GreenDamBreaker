@@ -35,6 +35,10 @@ public class GameLevel : SingletonBase<GameLevel>
 
 	void Update()
 	{
+		//if no mission set in this level, don't check
+		if(missions.Length <= 0)
+			return;
+		
 		//complete everyone to complete this level
 		for(int i = 0; i < missions.Length; i++)
 		{

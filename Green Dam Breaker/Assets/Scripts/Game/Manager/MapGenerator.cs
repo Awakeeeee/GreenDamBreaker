@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour 
 {
 	public GameObject tile;
+	[Tooltip("If use rounded cube, scale the rounded cube down to 1 m^3 cube")]
 	public GameObject obstacle;
 	public Vector2 obstacleHeightRange;
 	public Color foreGroundColor;
@@ -68,19 +69,25 @@ public class MapGenerator : MonoBehaviour
 
 			if(c != startCoord && IsMapFullyAccessible(obstacleMap, currentObstacleCount) == true)	//after check this obstacle is indeed OK to spawn
 			{
+				GameObject obs = Instantiate(obstacle);
+				Vector3 pos = CoordToPosition(c, obs.CompareTag("RoundedCube"));
+				obs.transform.position = pos;
+				obs.transform.rotation = Quaternion.identity;
+
 				float height = Mathf.Lerp(obstacleHeightRange.x, obstacleHeightRange.y, (float)sr.NextDouble());
-				Vector3 pos = CoordToPosition(c);
-				GameObject obs = Instantiate(obstacle, pos, Quaternion.identity);
 				obs.transform.localScale = new Vector3(obs.transform.localScale.x * scaler * (1 - edgePercentage), height, obs.transform.localScale.z * scaler * (1 - edgePercentage));
 				obs.transform.position += Vector3.up * 0.5f * height;
 				obs.transform.SetParent(tileParent);
 
-				Renderer obsRenderer = obs.GetComponent<Renderer>();
-				Material newMat = new Material(obsRenderer.sharedMaterial);	//create a new material, which is a copy of obs's shared mat
-				float distPercent = (float)c.y / (float)sizeY;
-				newMat.color = Color.Lerp(foreGroundColor, backGroundColor, distPercent);	//modify the new mat
-				obsRenderer.material = newMat;	//now actually every obstacle has its own material
-			
+				if(!obs.CompareTag("RoundedCube"))
+				{
+					Renderer obsRenderer = obs.GetComponent<Renderer>();
+					Material newMat = new Material(obsRenderer.sharedMaterial);	//create a new material, which is a copy of obs's shared mat
+					float distPercent = (float)c.y / (float)sizeY;
+					newMat.color = Color.Lerp(foreGroundColor, backGroundColor, distPercent);	//modify the new mat
+					obsRenderer.material = newMat;	//now actually every obstacle has its own material
+				}
+		
 				openCoords.Remove(c);
 			}
 			else   //after check, this obstacle turns to make map inaccessible, cancel spawning
@@ -184,10 +191,17 @@ public class MapGenerator : MonoBehaviour
 	}
 
 	///up direction is not calculated and will always be 0
-	Vector3 CoordToPosition(Coord coord)
+	Vector3 CoordToPosition(Coord coord, bool isRoundedCube = false)
 	{
 		Vector3 pos = new Vector3(-sizeX/2f + (coord.x + 0.5f) * scaler, 0f, -sizeY/2f + (coord.y + 0.5f) * scaler);
-		return pos;
+		if(isRoundedCube == false)
+		{
+			return pos;
+		}else
+		{
+			Vector3 posR = pos - Vector3.right * 0.5f * scaler - Vector3.forward * 0.5f * scaler;
+			return posR;
+		}
 	}
 }
 
