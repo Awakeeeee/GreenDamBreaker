@@ -68,16 +68,24 @@ public class SniperRifle : Gun
 
 		zoomSpeed = Mathf.Abs(originFOV - originFOV * zoomScale) / zoomTime;
 
-		if(Input.GetButton("Fire2"))
+		if(Input.GetButtonDown("Fire2"))
 		{
 			IntoSniperSight();
+		}
+
+		if(Input.GetButton("Fire2"))
+		{
+			//if for any reason, it comes here with out ButtonDown event, reset sniper sight state
+			if(!inSniperSight)
+			{
+				IntoSniperSight();
+			}
 
 			//when fully complete zoom
 			if(Mathf.Abs(cam.fieldOfView - originFOV * zoomScale) <= 0.01f)
 			{
 				cam.fieldOfView = originFOV * zoomScale;
 				GUIManager.Instance.sniperSightMask.alpha = 1.0f;
-
 				return;
 			}
 
@@ -91,9 +99,10 @@ public class SniperRifle : Gun
 		//if not holding zoom button
 		if(cam.fieldOfView != originFOV)
 		{
-			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV, zoomSpeed * Time.deltaTime);
+			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV, zoomSpeed * 2f * Time.deltaTime);
 			cam.fieldOfView = newFOV;
-			GUIManager.Instance.sniperSightMask.alpha = Mathf.MoveTowards(1f, 0f, zoomSpeed * Time.deltaTime);
+			GUIManager.Instance.sniperSightMask.alpha = Mathf.MoveTowards(1f, 0f, zoomSpeed * 2f * Time.deltaTime);
+			FPSCharacterController.Instance.ResetRotateSensityvity();
 
 			//fully zoomed back
 			if(Mathf.Abs(cam.fieldOfView - originFOV) <= 0.01f)
@@ -107,6 +116,7 @@ public class SniperRifle : Gun
 	{
 		inSniperSight = true;
 		reticlePrompt.alpha = 0.0f;
+		FPSCharacterController.Instance.SetRotateSensitivity(zoomScale, zoomScale);	//I think it makes sense that rotate slow down depends on zoomscale
 	}
 	void OutOfSniperSight()
 	{

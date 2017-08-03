@@ -262,4 +262,13 @@ public class FPSCharacterController : SingletonBase<FPSCharacterController>
 		walkSpeed = defaultWalkSpeed;;
 		runSpeed = defaultRunSpeed;
 	}
+
+	public void SetRotateSensitivity(float multiX, float multiY)
+	{
+		mouseTracker.SetSensitivity(multiX, multiY);
+	}
+	public void ResetRotateSensityvity()
+	{
+		mouseTracker.ResetSensitivity();
+	}
 }

@@ -110,4 +110,15 @@ public class MouseTracker
 
 		return q;
 	}
+
+	public void SetSensitivity(float multiX, float multiY)
+	{
+		sensitiveX *= multiX;
+		sensitiveY *= multiY;
+	}
+	public void ResetSensitivity()
+	{
+		sensitiveX = 3f;
+		sensitiveY = 3f;
+	}
 }
