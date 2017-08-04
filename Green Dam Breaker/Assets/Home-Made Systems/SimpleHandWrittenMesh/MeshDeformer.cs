@@ -11,6 +11,12 @@ public class MeshDeformer : MonoBehaviour
 {
 	[Tooltip("[Large offset makes focus, dent deformation and low force] | [Small offset makes shallow, surface-spread deformation but large force]")]
 	public float forceOffset = 0.1f;
+	public enum DeformMethod
+	{
+		InstantOnce,
+		Continuous
+	}
+	public DeformMethod deformMethod;
 
 	MeshFilter filter;
 	MeshRenderer rdr;
@@ -25,7 +31,6 @@ public class MeshDeformer : MonoBehaviour
 		rdr = GetComponent<MeshRenderer>();
 
 		originalVertices = filter.mesh.vertices;
-
 		Reset();
 	}
 
@@ -35,16 +40,11 @@ public class MeshDeformer : MonoBehaviour
 		{
 			Reset();
 		}
-		//TODO when there is input
-		//Keep the input, deforming velocity is accelerating
-		//Stop the input, deforming proceeds by a constant velocity
-		for(int i = 0; i < deformedVertices.Length; i++)
-		{
-			UpdateVertexPos(i);
-		}
 
-		filter.mesh.vertices = deformedVertices;
-		filter.mesh.RecalculateNormals();
+		if(deformMethod == DeformMethod.Continuous)
+		{
+			ApplyVertexChange();
+		}
 	}
 
 	//called in Update while keeping input
@@ -61,14 +61,20 @@ public class MeshDeformer : MonoBehaviour
 		{
 			SetVertexVelocity(i, forceStart, force);
 		}
+
+		if(deformMethod == DeformMethod.InstantOnce)
+		{
+			ApplyVertexChange();
+			vertexVelocity = new Vector3[deformedVertices.Length];
+		}
 	}
 
 	//called in Update while keeping input
 	void SetVertexVelocity(int vIndex, Vector3 fStart, float force)
 	{
-		Debug.DrawLine(fStart, deformedVertices[vIndex], Color.red);
+		Debug.DrawLine(fStart, deformedVertices[vIndex] + transform.position, Color.red);
 
-		Vector3 forceVec = deformedVertices[vIndex] - fStart;
+		Vector3 forceVec = deformedVertices[vIndex] + transform.position - fStart;
 
 		float attenuationDist = forceVec.sqrMagnitude;
 		float attenuatedForce = force / (1 + attenuationDist);	//inverse square rule
@@ -84,6 +90,17 @@ public class MeshDeformer : MonoBehaviour
 		deformedVertices[vIndex] += velocity * Time.deltaTime;	// S = S + dS | dS = v * dt
 	}
 
+	void ApplyVertexChange()
+	{
+		for(int i = 0; i < deformedVertices.Length; i++)
+		{
+			UpdateVertexPos(i);
+		}
+
+		filter.mesh.vertices = deformedVertices;
+		filter.mesh.RecalculateNormals();
+	}
+
 	public void Reset()
 	{
 		deformedVertices = new Vector3[originalVertices.Length];
@@ -91,9 +108,8 @@ public class MeshDeformer : MonoBehaviour
 		{
 			deformedVertices[i] = originalVertices[i];
 		}
-
 		vertexVelocity = new Vector3[deformedVertices.Length];
 
-		filter.mesh.vertices = originalVertices;
+		ApplyVertexChange();
 	}
 }

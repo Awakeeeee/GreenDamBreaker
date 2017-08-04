@@ -102,7 +102,6 @@ public class SniperRifle : Gun
 			float newFOV = Mathf.MoveTowards(cam.fieldOfView, originFOV, zoomSpeed * 2f * Time.deltaTime);
 			cam.fieldOfView = newFOV;
 			GUIManager.Instance.sniperSightMask.alpha = Mathf.MoveTowards(1f, 0f, zoomSpeed * 2f * Time.deltaTime);
-			FPSCharacterController.Instance.ResetRotateSensityvity();
 
 			//fully zoomed back
 			if(Mathf.Abs(cam.fieldOfView - originFOV) <= 0.01f)
@@ -128,5 +127,6 @@ public class SniperRifle : Gun
 		GUIManager.Instance.sniperSightMask.alpha = 0f;
 		reticlePrompt.alpha = 1.0f;
 		inSniperSight = false;
+		FPSCharacterController.Instance.ResetRotateSensityvity();
 	}
 }
