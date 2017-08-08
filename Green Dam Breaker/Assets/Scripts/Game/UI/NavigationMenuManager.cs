@@ -33,12 +33,12 @@ public class NavigationMenuManager : MonoBehaviour
 		}
 	}
 
-	public void LoadScene(string sceneName)
+	public void LoadScene(int sceneID)
 	{
 		if(SceneController.Instance == null)
 		{
 			Debug.LogWarning("Game should start at Persistent scene, check if you have persistent scene loaded.");
 		}
-		SceneController.Instance.MyLoadScene(sceneName, true, true, true);
+		SceneController.Instance.MyLoadScene(sceneID, true, true, true);
 	}
 }

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Base class for any specific AI fsm
-[RequireComponent(typeof(Animator))]
-public class AIStateMachine : MonoBehaviour 
+public class AIStateMachine : MonoBehaviour
 {
 	public AIState currentState;
 	public AIState previousState;

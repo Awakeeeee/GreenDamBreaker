@@ -93,7 +93,7 @@ public class PatrolmanFSM : AIStateMachine
 			Health targetHP = fireHit.transform.GetComponent<Health>();
 			if(targetHP != null)
 			{
-				targetHP.TakeDamage(fireHit, damage);
+				targetHP.TakeDamage(damage, fireHit);
 			}
 		}
 

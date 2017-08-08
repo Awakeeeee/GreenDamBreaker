@@ -2,44 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FormationDatabase : MonoBehaviour
+public class FormationDatabase : SingletonBase<FormationDatabase>
 {
-	private static FormationDatabase instance;
-
-	public static FormationDatabase Instance
-	{
-		get
-		{
-			if(instance == null)
-			{
-				instance = FindObjectOfType<FormationDatabase>();
-
-				if(instance == null)
-				{
-					Debug.LogError("Singleton error: No FormationDatabase in scene.");
-				}
-
-				return instance;
-			}
-
-			return instance;	
-		}
-	}
-
 	public List<FormationData> database;
-
-	void Awake()
-	{
-		if(instance == null)
-		{
-			instance = this;
-		}else if(instance != this)
-		{
-			Destroy(this.gameObject);
-		}
-
-		DontDestroyOnLoad(this.gameObject);
-	}
 
 	public FormationData PickRandomFormation(int enemyNum)
 	{

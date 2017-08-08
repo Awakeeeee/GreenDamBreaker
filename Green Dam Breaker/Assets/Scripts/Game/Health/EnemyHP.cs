@@ -43,7 +43,7 @@ public class EnemyHP : Health
 		enemyAI = GetComponent<AIStateMachine>();
 	}
 
-	public override void TakeDamage(RaycastHit hit, float damage)
+	public override void TakeDamage(float damage, RaycastHit hit = default(RaycastHit))
 	{
 		currentHP -= damage;
 
@@ -140,6 +140,9 @@ public class EnemyHP : Health
 			OnDeath();
 		}
 
-		enemyAI.DeactiveSelf();
+		if(enemyAI != null)
+		{
+			enemyAI.DeactiveSelf();
+		}
 	}
 }

@@ -8,11 +8,11 @@ using UnityEditor;
 
 public class KillAllEnemy : LevelMissionBase
 {
-	public WaveSpawner levelSpawner;
+	public EnemySpawnerBase levelSpawner;
 
 	protected override void InternalOnEnable ()
 	{
-
+		
 	}
 
 	protected override void InternalOnDisable ()

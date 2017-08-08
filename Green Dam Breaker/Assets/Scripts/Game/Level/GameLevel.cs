@@ -64,8 +64,8 @@ public class GameLevel : SingletonBase<GameLevel>
 
 		yield return StartCoroutine(SceneController.Instance.SceneEndFade(false));
 		GUIManager.Instance.ShowCursor();
-		//TODO for now, level success also lead to main menu
-		SceneController.Instance.MyLoadScene("Scene_NavigationMenu");
+		//level success also lead to next level, if all levels are donw, go to main menu
+		SceneController.Instance.LoadNextScene(true, true, true);
 	}
 
 	void SetLevelStartText()

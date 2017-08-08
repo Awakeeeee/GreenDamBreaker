@@ -200,7 +200,7 @@ public class Gun : MonoBehaviour
 
 			if(target != null)
 			{
-				target.TakeDamage(hitInfo, damage);
+				target.TakeDamage(damage, hitInfo);
 			}
 		}
 	}

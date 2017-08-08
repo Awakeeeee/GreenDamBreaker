@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveSpawner : MonoBehaviour 
+public class WaveSpawner : EnemySpawnerBase
 {
 	public Wave[] waves;
 	public EnemyHP enemyPrefab;
-
-	public bool spawnerFinish = false;
 
 	private Wave currentWave;
 	private int currentWaveNumber;
@@ -16,6 +14,8 @@ public class WaveSpawner : MonoBehaviour
 	private float nextSpawnTime;
 
 	private MapGenerator mapG;
+
+	public bool IsSpawningFinish{ get {return spawnerFinish; }}
 
 	void Start()
 	{

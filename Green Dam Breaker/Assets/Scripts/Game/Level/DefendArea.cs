@@ -24,7 +24,8 @@ public class DefendArea : LevelMissionBase
 
 	public override void CheckComplete ()
 	{
-		
+		if(bCompleted)
+			return;
 	}
 }
 

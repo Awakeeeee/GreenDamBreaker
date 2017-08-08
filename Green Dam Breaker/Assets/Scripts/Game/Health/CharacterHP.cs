@@ -17,7 +17,7 @@ public class CharacterHP : Health
 		GUIManager.Instance.HealthBar.ResetBar(maxHP, 1.0f);
 	}
 
-	public override void TakeDamage(RaycastHit hit, float damage)
+	public override void TakeDamage(float damage, RaycastHit hit = default(RaycastHit))
 	{
 		if(isDead)
 			return;
@@ -54,7 +54,7 @@ public class CharacterHP : Health
 		yield return StartCoroutine(SceneController.Instance.SceneEndFade(true));
 
 		GUIManager.Instance.ShowCursor();
-		SceneController.Instance.MyLoadScene("Scene_NavigationMenu", false, true, false);
+		SceneController.Instance.MyLoadScene(1, false, true, false);	//to main menu
 
 		this.enabled = false;
 	}

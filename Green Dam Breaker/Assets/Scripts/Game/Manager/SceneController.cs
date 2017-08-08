@@ -11,7 +11,7 @@ public class SceneController : PersistentSingletonBase<SceneController>
 	public CanvasGroup overallBackground;
 	public Text overallPrompt;
 	private Image overallBgImage;
-	public string firstSceneToLoad;
+	public int firstSceneToLoad = 1;
 
 	public float fadeTime = 1.0f;
 	public bool isFading = false;
@@ -35,15 +35,29 @@ public class SceneController : PersistentSingletonBase<SceneController>
 	}
 
 	//External point
-	public void MyLoadScene(string sceneName, bool fadeIn = true, bool fadeOut = true, bool isGameLevel = false)
+	public void MyLoadScene(int sceneID, bool fadeIn = true, bool fadeOut = true, bool isGameLevel = false)
 	{
 		if(isFading)
 			return;
 		
-		StartCoroutine(LoadSceneProcess(sceneName, fadeIn, fadeOut, isGameLevel));
+		StartCoroutine(LoadSceneProcess(sceneID, fadeIn, fadeOut, isGameLevel));
+	}
+	public void LoadNextScene(bool fadeIn = true, bool fadeOut = true, bool isGameLevel = false)
+	{
+		if(isFading)
+			return;
+
+		int nextSceneID = 1;
+		int thisSceneID = SceneManager.GetActiveScene().buildIndex;
+		if(thisSceneID + 1 < SceneManager.sceneCountInBuildSettings)
+		{
+			nextSceneID = thisSceneID + 1;
+			//sceneName = SceneManager.GetSceneByBuildIndex(thisSceneID + 1).name;	//GetSceneByBuildIndex only return valid scene if the scene is loaded
+		}
+		StartCoroutine(LoadSceneProcess(nextSceneID, fadeIn, fadeOut, isGameLevel));
 	}
 
-	IEnumerator LoadSceneProcess(string sceneName, bool fadeIn, bool fadeOut, bool isGameLevel)
+	IEnumerator LoadSceneProcess(int sceneID, bool fadeIn, bool fadeOut, bool isGameLevel)
 	{
 		if(fadeIn)
 		{
@@ -57,7 +71,7 @@ public class SceneController : PersistentSingletonBase<SceneController>
 
 		yield return SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
 
-		yield return StartCoroutine(LoadAndActiveScene(sceneName));
+		yield return StartCoroutine(LoadAndActiveScene(sceneID));
 
 		if(LoadSceneEvent != null)
 		{
@@ -76,9 +90,9 @@ public class SceneController : PersistentSingletonBase<SceneController>
 		}
 	}
 
-	IEnumerator LoadAndActiveScene(string sceneName)
+	IEnumerator LoadAndActiveScene(int sceneID)
 	{
-		yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);	//load scene in background but not active yet
+		yield return SceneManager.LoadSceneAsync(sceneID, LoadSceneMode.Additive);	//load scene in background but not active yet
 
 		Scene newScene = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);	//find the loaded scene
 

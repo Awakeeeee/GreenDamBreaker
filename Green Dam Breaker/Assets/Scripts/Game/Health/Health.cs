@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 	}
 
-	public virtual void TakeDamage(RaycastHit hit, float damage)
+	public virtual void TakeDamage(float damage, RaycastHit hit = default(RaycastHit))
 	{
 		
 	}

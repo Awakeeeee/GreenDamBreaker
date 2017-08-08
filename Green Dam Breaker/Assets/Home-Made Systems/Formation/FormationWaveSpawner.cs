@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FormationWaveSpawner : MonoBehaviour {
-
+public class FormationWaveSpawner : EnemySpawnerBase
+{
 	public FWave[] waves;
 	public EnemyHP enemyPrefab;
-
-	public bool spawnerFinish = false;
 
 	private FWave currentWave;
 	private int currentWaveNumber;
 	private int waveAliveEnemyNumber;	//when wave aline enemy count is 0, start next wave
 	private int waveRemainingEnemyNumber;	//the enemy waiting to be spawned in a wave
 	private float nextSpawnTime;
-
+ 
 	void Start()
 	{
 		currentWaveNumber = 0;
@@ -22,7 +20,7 @@ public class FormationWaveSpawner : MonoBehaviour {
 
 		for(int i = 0; i < waves.Length; i++)
 		{
-			waves[i].Setup(3);
+			waves[i].Setup();
 		}
 
 		NextWave();
@@ -77,14 +75,13 @@ public class FormationWaveSpawner : MonoBehaviour {
 [System.Serializable]
 public class FWave
 {
-	public float spawnInterval = 0f;
-	public float spawningTime = 0f;
+	public float spawnInterval = 0.1f;
+	public float spawningTime = 0.1f;
 	public FormationData formationData;
 	public int waveEnemyTotal;
 
-	public void Setup(int enemyNum)
+	public void Setup()
 	{
-		waveEnemyTotal = enemyNum;
-		formationData = FormationDatabase.Instance.PickRandomFormation(enemyNum);
+		formationData = FormationDatabase.Instance.PickRandomFormation(waveEnemyTotal);
 	}
 }

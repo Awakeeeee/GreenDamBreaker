@@ -14,7 +14,7 @@ public class DeformerBlockHP : Health
 		deformer = GetComponent<MeshDeformer>();
 	}
 
-	public override void TakeDamage(RaycastHit hit, float damage)
+	public override void TakeDamage(float damage, RaycastHit hit = default(RaycastHit))
 	{
 		float deformerForce = damage * damageToForceMultiplier;
 		deformerForce = Mathf.Clamp(deformerForce, 0f, maxDeformForce);

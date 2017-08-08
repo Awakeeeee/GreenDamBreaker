@@ -29,7 +29,7 @@ public class HitterAttack : HitterStateBase
 
 		if(atkTimer > atkInterval)
 		{
-			sfsm.player.GetComponent<CharacterHP>().TakeDamage(new RaycastHit(), atkDamage);
+			sfsm.player.GetComponent<CharacterHP>().TakeDamage(atkDamage);
 			sfsm.transform.rotation = Quaternion.LookRotation((new Vector3(sfsm.player.transform.position.x, sfsm.transform.position.y, sfsm.player.transform.position.z) - sfsm.transform.transform.position).normalized);
 			sfsm.Attack(atkSpeed);
 			atkTimer = 0f;

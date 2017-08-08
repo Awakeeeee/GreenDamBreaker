@@ -125,7 +125,7 @@ public class FormationGeneratorEditor : Editor
 
 			formation.Setup(self.formationName, data);
 
-			AssetDatabase.CreateAsset(formation, "Assets/" + self.formationName.ToString() + ".asset");
+			AssetDatabase.CreateAsset(formation, "Assets/Prefabs/FormationData/" + self.formationName.ToString() + ".asset");
 			AssetDatabase.SaveAssets();
 
 			self.SetDefaultName();
