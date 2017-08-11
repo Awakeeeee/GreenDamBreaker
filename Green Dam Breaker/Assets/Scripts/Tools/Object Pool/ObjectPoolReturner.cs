@@ -8,6 +8,7 @@ public class ObjectPoolReturner : MonoBehaviour
 
 	void OnEnable()
 	{
+		CancelInvoke();
 		Invoke("Return", time);
 	}
 

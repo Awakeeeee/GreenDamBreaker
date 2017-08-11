@@ -52,8 +52,9 @@ public class MechFlyAttack : MechFlyStateBase
 
 		Vector3 playerPos = Camera.main.transform.position;	//hit on face
 		Vector3 bulletDir = (playerPos - sfsm.transform.position).normalized;
-		EnemyBullet eb = GlobalBulletImpactParticle.Instance.enemyBulletPool.GetPooledObj().GetComponent<EnemyBullet>();
+		EnemyBullet eb = GlobalBulletImpactParticle.Instance.enemyBulletPool.GetPooledObj(true).GetComponent<EnemyBullet>();
 		eb.transform.position = sfsm.muzzlePos.position;
+		eb.gameObject.SetActive(true);
 
 		if(eb != null)
 		{

@@ -8,10 +8,21 @@ public class EnemyBullet : MonoBehaviour
 	public float Damage {get{return damage;}}
 	private Vector3 direction;
 	private float speed;
+	private TrailRenderer tr;
+
+	void Awake()
+	{
+		tr = GetComponent<TrailRenderer>();
+	}
 
 	void OnEnable()
 	{
 		
+	}
+
+	void OnDisable()
+	{
+		tr.Clear();
 	}
 
 	void Update()

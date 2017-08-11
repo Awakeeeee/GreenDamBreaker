@@ -23,13 +23,17 @@ public class ObjectPool : MonoBehaviour
 		}
 	}
 
-	public GameObject GetPooledObj()
+	public GameObject GetPooledObj(bool getInactiveObj = false)
 	{
 		foreach(GameObject g in pool)
 		{
 			if(!g.activeInHierarchy)
 			{
-				g.SetActive(true);
+				if(!getInactiveObj)
+				{
+					g.SetActive(true);	
+				}
+
 				return g;
 			}
 		}
@@ -37,6 +41,10 @@ public class ObjectPool : MonoBehaviour
 		if(canGrow)
 		{
 			GameObject extraObj = Instantiate(obj, this.transform);
+			if(getInactiveObj)
+			{
+				extraObj.SetActive(false);
+			}
 			pool.Add(extraObj);
 			return extraObj;
 		}else{
