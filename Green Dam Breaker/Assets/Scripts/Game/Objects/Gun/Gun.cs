@@ -80,7 +80,8 @@ public class Gun : MonoBehaviour
 
 	[Space(10)]
 	[Header("Effect")]
-	public ParticleSystem gunFlare;
+	public ParticleSystem gunFlarePrefab;
+	protected ParticleSystem gunFlare;
 	public ObjectPool shells;
 	public float outSpeed;
 	public Vector3 outDirMins;
@@ -103,6 +104,13 @@ public class Gun : MonoBehaviour
 		if(cam)
 		{
 			originFOV = cam.fieldOfView;
+		}
+
+		if(gunFlarePrefab != null)
+		{
+			gunFlare = Instantiate(gunFlarePrefab, this.transform);
+			gunFlare.transform.localPosition = Vector3.zero;
+			gunFlare.gameObject.SetActive(false);
 		}
 	}
 
@@ -128,8 +136,7 @@ public class Gun : MonoBehaviour
 		currentAmmo = magazineSize;
 		//ammoLeft = magazineSize * 4;	//when pick up a new gun, there are 5 cartridge ammo
 		isReloading = false;
-		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
-		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
+		UpdateAmmoUI();
 
 		reticle = Camera.main.GetComponent<Reticle>();
 	}
@@ -175,6 +182,7 @@ public class Gun : MonoBehaviour
 		//fire sfx
 		gunAudio.PlayOneShot(fireSFX);
 		//gun flare
+		gunFlare.gameObject.transform.position = muzzle.position;
 		gunFlare.gameObject.SetActive(true);
 		//lighting
 		fireLight.gameObject.SetActive(true);
@@ -261,7 +269,7 @@ public class Gun : MonoBehaviour
 	protected virtual void UpdateAmmo()
 	{
 		currentAmmo -= 1;
-		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
+		UpdateAmmoUI(false);
 
 		if(currentAmmo <= 0 && ammoLeft > 0)
 		{
@@ -274,6 +282,21 @@ public class Gun : MonoBehaviour
 	{
 		isReloading = true;
 		modelAnimator.SetTrigger("reload");
+	}
+
+	public virtual void CollectAmmo(int amount)
+	{
+		ammoLeft += amount;
+		UpdateAmmoUI();
+	}
+
+	protected virtual void UpdateAmmoUI(bool updateLeft = true)
+	{
+		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
+		if(updateLeft)
+		{
+			GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
+		}
 	}
 
 	//animation event
@@ -290,8 +313,7 @@ public class Gun : MonoBehaviour
 
 		ammoLeft -= currentAmmo - ammoInCartridge;
 
-		GUIManager.Instance.UpdateText(GUIManager.Instance.CurrentAmmoText, currentAmmo.ToString());
-		GUIManager.Instance.UpdateText(GUIManager.Instance.FullAmmoText, " / " + ammoLeft.ToString());
+		UpdateAmmoUI();
 		fireTimer = fireRate;
 		isReloading = false;
 	}

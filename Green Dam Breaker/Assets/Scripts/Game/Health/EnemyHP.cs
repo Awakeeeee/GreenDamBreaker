@@ -8,7 +8,8 @@ public class EnemyHP : Health
 	public Transform miniMapMark;
 
 	public float maxHP;
-	public ParticleSystem deathEffect;
+	public ParticleSystem deathEffectPrefab;
+	private ParticleSystem deathEffect;
 	public Collider nonTriggerCollider;
 
 	public enum DieEffect
@@ -33,12 +34,21 @@ public class EnemyHP : Health
 
 	public event System.Action OnDeath;	//a non-static event which belongs to each enemy instance
 
+	void Start()
+	{
+		if(deathEffectPrefab != null)
+		{
+			deathEffect = Instantiate(deathEffectPrefab, this.transform);
+			deathEffect.transform.localPosition = Vector3.zero;
+			deathEffect.gameObject.SetActive(false);
+		}
+	}
+
 	protected override void OnEnable ()
 	{
 		base.OnEnable ();
 		currentHP = maxHP;
 		isDead = false;
-		deathEffect.gameObject.SetActive(false);
 		body = GetComponent<Rigidbody>();
 		enemyAI = GetComponent<AIStateMachine>();
 	}
