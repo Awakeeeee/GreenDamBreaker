@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SoundManager : SingletonBase<SoundManager> 
 {
-	public AudioSource source2D;
-	public AudioSource source3D;
+	public AudioSource sound2D;
+	public AudioSource sound3D;
 
 	private AudioSource[] audioSources;
 	private float[] defaultVolumes;
@@ -23,7 +23,7 @@ public class SoundManager : SingletonBase<SoundManager>
 
 	public void PlayClip2D(AudioClip clip)
 	{
-		source2D.PlayOneShot(clip);
+		sound2D.PlayOneShot(clip);
 	}
 
 	public void SetVolume(float multipler)

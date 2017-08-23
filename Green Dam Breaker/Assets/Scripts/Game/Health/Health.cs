@@ -8,6 +8,12 @@ public class Health : MonoBehaviour
 	public AudioClip dieSound;
 	protected AudioSource audioSource;
 
+	public float maxHP;
+	protected float currentHP;
+
+	protected bool isDead;
+	public bool IsDead { get {return isDead; }}
+
 	protected virtual void OnEnable()
 	{
 		audioSource = GetComponent<AudioSource>();

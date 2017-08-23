@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class CharacterHP : Health 
 {
-	public float maxHP;
-
-	private float currentHP;
-	private bool isDead;
-
 	protected override void OnEnable()
 	{
 		base.OnEnable();

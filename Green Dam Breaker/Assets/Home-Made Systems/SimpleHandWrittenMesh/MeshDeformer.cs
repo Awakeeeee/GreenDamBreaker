@@ -50,7 +50,7 @@ public class MeshDeformer : MonoBehaviour
 	//called in Update while keeping input
 	public void Deform(RaycastHit hit, float force)
 	{
-		//A deform force applied on a meshx, is from somewhere pointing towards every mesh point
+		//A deform force applied on a mesh, is from somewhere pointing towards every mesh point
 		//that somewhere is calculated as forceStart. it is the hit point on collider repositioned a little along hit normal
 		//As such, it requires enough mesh vertex to has good result
 		Vector3 forceStart = hit.point + hit.normal * forceOffset;

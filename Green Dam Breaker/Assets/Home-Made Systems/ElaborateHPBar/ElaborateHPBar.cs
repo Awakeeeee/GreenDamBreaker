@@ -22,8 +22,8 @@ public class ElaborateHPBar : MonoBehaviour
 	public Text jumpOutText;
 
 	[Header("Data Monitor")]
-	[SerializeField]private float maxHp;
-	[SerializeField]private float currentHp;
+	public float maxHp;
+	public float currentHp;
 	private float hpPivot;	//the current percent of life, floating btw 0 ~ 1
 
 	//flags
@@ -31,7 +31,7 @@ public class ElaborateHPBar : MonoBehaviour
 
 	void Start()
 	{
-		ResetBar(100, 1f);
+		//ResetBar(100, 1f);
 	}
 
 	public void ResetBar(float _maxHp, float startHealthPercent)

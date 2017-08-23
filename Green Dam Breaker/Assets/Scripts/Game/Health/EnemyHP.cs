@@ -7,7 +7,6 @@ public class EnemyHP : Health
 	public GameObject[] bodyParts;	//optional
 	public Transform miniMapMark;
 
-	public float maxHP;
 	public ParticleSystem deathEffectPrefab;
 	private ParticleSystem deathEffect;
 	public Collider nonTriggerCollider;
@@ -25,12 +24,8 @@ public class EnemyHP : Health
 	public float sinkTime;
 	public float sinkSpeed;
 
-	float currentHP;
 	AIStateMachine enemyAI;
 	Rigidbody body;
-
-	private bool isDead;
-	public bool IsDead { get {return isDead; }}
 
 	public event System.Action OnDeath;	//a non-static event which belongs to each enemy instance
 

@@ -8,7 +8,7 @@ using UnityEditor;
 
 public class KillTarget : LevelMissionBase
 {
-	public Transform target;
+	public Health target;
 
 	protected override void InternalOnEnable ()
 	{
@@ -22,7 +22,13 @@ public class KillTarget : LevelMissionBase
 
 	public override void CheckComplete ()
 	{
-		return;
+		if(bCompleted)
+			return;
+		
+		if(target.IsDead)
+		{
+			bCompleted = true;
+		}
 	}
 }
 
