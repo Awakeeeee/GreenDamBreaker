@@ -8,6 +8,9 @@ public class CollectableAmmo : Collectable, ICollectable
 
 	public void Collect()
 	{
+		if(PersonalIntelligentMachine.Instance.CurrentGun == null)
+			return;
+		
 		PersonalIntelligentMachine.Instance.CurrentGun.CollectAmmo(ammo);
 		Destroy(parent.gameObject);
 	}

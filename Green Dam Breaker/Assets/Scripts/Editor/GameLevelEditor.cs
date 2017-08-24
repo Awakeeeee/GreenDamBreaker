@@ -14,6 +14,7 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 	private SerializedProperty levelIDProp;
 	private SerializedProperty levelNameProp;
 	private SerializedProperty levelDescriptionProp;
+	private SerializedProperty isLastLevelProp;
 	private SerializedProperty levelBGMProp;
 	private SerializedProperty missionsProp;
 
@@ -27,6 +28,7 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 		levelIDProp = serializedObject.FindProperty("levelID");
 		levelNameProp = serializedObject.FindProperty("levelName");
 		levelDescriptionProp = serializedObject.FindProperty("levelDescription");
+		isLastLevelProp = serializedObject.FindProperty("isLastLevel");
 		levelBGMProp = serializedObject.FindProperty("levelBGM");
 
 		self = target as GameLevel;
@@ -63,6 +65,7 @@ public class GameLevelEditor : EditorWithSubEditors<LevelMissionBaseEditor, Leve
 
 		EditorGUILayout.PropertyField(levelIDProp);
 		EditorGUILayout.PropertyField(levelNameProp);
+		EditorGUILayout.PropertyField(isLastLevelProp);
 
 		GUILayout.Space(5f);
 

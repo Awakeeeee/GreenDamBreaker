@@ -24,13 +24,19 @@ public class SniperRifle : Gun
 			return;
 		}
 
-		if(Input.GetButtonDown("Reload") && ammoLeft > 0)
+		if(ammoLeft > 0)
 		{
-			Reload();
+			if(Input.GetButtonDown("Reload") || currentAmmo <= 0)
+				Reload();
 		}
 
 		if(ammoLeft + currentAmmo <= 0)	//no ammo, stop here
 		{
+			if(inSniperSight)
+			{
+				OutOfSniperSight();
+			}
+
 			if(Input.GetButtonDown("Fire1")) 
 			{
 				gunAudio.PlayOneShot(fireNoAmmoSFX);

@@ -11,11 +11,22 @@ public class DeformerBlockHP : Health
 
 	public ElaborateHPBar hpBar;
 
+	public Transform centerPosition;
+	public ParticleSystem deathParticlePrefab;
+	private ParticleSystem deathParticle;
+
 	void Start()
 	{
 		deformer = GetComponent<MeshDeformer>();
 		currentHP = maxHP;
 		hpBar.ResetBar(maxHP, 1f);
+
+		if(deathParticlePrefab != null)
+		{
+			deathParticle = Instantiate(deathParticlePrefab, this.transform);
+			deathParticle.transform.localPosition = centerPosition.localPosition;
+			deathParticle.gameObject.SetActive(false);
+		}
 	}
 
 	void Update()
@@ -55,5 +66,14 @@ public class DeformerBlockHP : Health
 		{
 			SoundManager.Instance.PlayClip2D(dieSound);
 		}
+
+		if(deathParticle != null)
+		{
+			deathParticle.gameObject.SetActive(true);
+			deathParticle.transform.SetParent(null);
+			deathParticle.Play();
+		}
+
+		Destroy(this.gameObject);
 	}
 }

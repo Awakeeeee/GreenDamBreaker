@@ -36,12 +36,12 @@ public abstract class LevelMissionBase : ScriptableObject
 [CustomEditor(typeof(LevelMissionBase))]
 public abstract class LevelMissionBaseEditor : Editor
 {
-	LevelMissionBase self;
+	//LevelMissionBase self;
 	bool expandFoldOut = true;
 
 	void OnEnable()
 	{
-		self = target as LevelMissionBase;
+		//self = target as LevelMissionBase;
 		OnEnableChild();
 	}
 

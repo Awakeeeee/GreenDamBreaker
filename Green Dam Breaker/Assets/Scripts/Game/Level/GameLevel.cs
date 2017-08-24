@@ -8,6 +8,7 @@ public class GameLevel : SingletonBase<GameLevel>
 	public string levelName;
 	[Multiline]
 	public string levelDescription;
+	public bool isLastLevel = false;
 
 	public LevelMissionBase[] missions = new LevelMissionBase[0];
 
@@ -38,7 +39,16 @@ public class GameLevel : SingletonBase<GameLevel>
 		//if no mission set in this level, don't check
 		if(missions.Length <= 0)
 			return;
-		
+
+		//TEST
+		if(Input.GetKeyDown(KeyCode.L))
+		{
+			if(!levelSuccess)
+			{
+				StartCoroutine(LevelSuccess());
+			}
+		}
+
 		//complete everyone to complete this level
 		for(int i = 0; i < missions.Length; i++)
 		{
@@ -65,7 +75,12 @@ public class GameLevel : SingletonBase<GameLevel>
 		yield return StartCoroutine(SceneController.Instance.SceneEndFade(false));
 		GUIManager.Instance.ShowCursor();
 		//level success also lead to next level, if all levels are donw, go to main menu
-		SceneController.Instance.LoadNextScene(true, true, true);
+		if(!isLastLevel)
+		{
+			SceneController.Instance.LoadNextScene(true, true, true);	
+		}else{
+			SceneController.Instance.LoadNextScene(true, true, false);
+		}
 	}
 
 	void SetLevelStartText()
