@@ -21,7 +21,7 @@ public class CollectionButton : MonoBehaviour, IPointerClickHandler
 	public void AddGun(Gun gunInfo)
 	{
 		hasBeenSet = true;
-		btnText.text = gunInfo.gunName;
+		btnText.text = gunInfo.gunName + "["+gunInfo.description+"]";
 		attachedGunID = gunInfo.ID;
 	}
 

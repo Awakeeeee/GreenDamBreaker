@@ -12,6 +12,14 @@ public class CharacterHP : Health
 		GUIManager.Instance.HealthBar.ResetBar(maxHP, 1.0f);
 	}
 
+	void Update()
+	{
+		if(this.transform.position.y <= -20f && !isDead)
+		{
+			TakeDamage(1000f);
+		}
+	}
+
 	public override void TakeDamage(float damage, RaycastHit hit = default(RaycastHit))
 	{
 		if(isDead)
@@ -29,7 +37,7 @@ public class CharacterHP : Health
 		//sfx
 		if(getShootSound != null && audioSource != null)
 		{
-			audioSource.PlayOneShot(getShootSound);	
+			audioSource.PlayOneShot(getShootSound);
 		}
 
 		//particle hit effet
@@ -49,6 +57,7 @@ public class CharacterHP : Health
 		yield return StartCoroutine(SceneController.Instance.SceneEndFade(true));
 
 		GUIManager.Instance.ShowCursor();
+		GameManager.Instance.ClearData();
 		SceneController.Instance.MyLoadScene(1, false, true, false);	//to main menu
 
 		this.enabled = false;

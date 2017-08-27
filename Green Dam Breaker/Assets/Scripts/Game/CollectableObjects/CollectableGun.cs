@@ -14,6 +14,9 @@ public class CollectableGun : Collectable, ICollectable
 	public void Collect()
 	{
 		PersonalIntelligentMachine.Instance.AddGunToCollection(gun);
+		GameManager.Instance.ownedGuns.Add(gun);
+		GUIManager.Instance.PlayCollectGunPrompt();
+		SoundManager.Instance.PlayClip2D(pickSFX);
 		Destroy(this.transform.parent.gameObject);
 	}
 }

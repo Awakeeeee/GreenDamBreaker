@@ -21,6 +21,7 @@ public class GUIManager : SingletonBase<GUIManager>
 
 	[Header("Game Play")]
 	public CanvasGroup sniperSightMask;
+	public Animator collectWeaponPrompt;
 
 	void Start()
 	{
@@ -59,6 +60,11 @@ public class GUIManager : SingletonBase<GUIManager>
 		tipDescription.text = desc;
 
 		tooltip.alpha = 1.0f;
+	}
+
+	public void PlayCollectGunPrompt()
+	{
+		collectWeaponPrompt.SetTrigger("play");
 	}
 
 	public void HideToolTip()

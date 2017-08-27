@@ -7,6 +7,7 @@ using System;
 
 public class SceneController : PersistentSingletonBase<SceneController>
 {
+	public Canvas gameUI;
 	public CanvasGroup fadePanel;
 	public CanvasGroup overallBackground;
 	public Text overallPrompt;
@@ -30,8 +31,9 @@ public class SceneController : PersistentSingletonBase<SceneController>
 		overallBackground.alpha = 0f;
 
 		yield return StartCoroutine(LoadAndActiveScene(firstSceneToLoad));
-
 		yield return StartCoroutine(ScreenFade(0.0f));
+
+		SoundManager.Instance.PlayBGM(true, 1.0f);
 	}
 
 	//External point
@@ -73,7 +75,19 @@ public class SceneController : PersistentSingletonBase<SceneController>
 
 		yield return StartCoroutine(LoadAndActiveScene(sceneID));
 
-		if(LoadSceneEvent != null)
+		if(isGameLevel)
+		{
+			gameUI.gameObject.SetActive(true);
+			if(sceneID == 2)
+			{
+				SoundManager.Instance.PlayBGM(false, 0.5f);
+			}
+		}else{
+			gameUI.gameObject.SetActive(false);
+			SoundManager.Instance.PlayBGM(true, 1f);
+		}
+
+		if(LoadSceneEvent != null && isGameLevel)
 		{
 			LoadSceneEvent();
 		}

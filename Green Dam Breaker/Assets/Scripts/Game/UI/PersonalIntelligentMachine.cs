@@ -58,6 +58,11 @@ public class PersonalIntelligentMachine : SingletonBase<PersonalIntelligentMachi
 			gunDictionry.Add(newGun.ID, newGun);	//add to dictionary, link to gun gameobject under hands
 			SetGunButton(gun);						//update UI
 		}
+
+		if(CurrentGun == null)
+		{
+			SelectGunFromCollection(newGun.ID);
+		}
 	}
 
 	public void SelectGunFromCollection(int ID)

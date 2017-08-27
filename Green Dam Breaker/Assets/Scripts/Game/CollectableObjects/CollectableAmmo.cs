@@ -12,6 +12,7 @@ public class CollectableAmmo : Collectable, ICollectable
 			return;
 		
 		PersonalIntelligentMachine.Instance.CurrentGun.CollectAmmo(ammo);
+		SoundManager.Instance.PlayClip2D(pickSFX);
 		Destroy(parent.gameObject);
 	}
 }

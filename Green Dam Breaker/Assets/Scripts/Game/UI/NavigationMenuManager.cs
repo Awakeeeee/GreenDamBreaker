@@ -41,4 +41,9 @@ public class NavigationMenuManager : MonoBehaviour
 		}
 		SceneController.Instance.MyLoadScene(sceneID, true, true, true);
 	}
+
+	public void OnClickExit()
+	{
+		Application.Quit();
+	}
 }

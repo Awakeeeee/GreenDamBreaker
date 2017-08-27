@@ -41,13 +41,13 @@ public class GameLevel : SingletonBase<GameLevel>
 			return;
 
 		//TEST
-		if(Input.GetKeyDown(KeyCode.L))
-		{
-			if(!levelSuccess)
-			{
-				StartCoroutine(LevelSuccess());
-			}
-		}
+//		if(Input.GetKeyDown(KeyCode.L))
+//		{
+//			if(!levelSuccess)
+//			{
+//				StartCoroutine(LevelSuccess());
+//			}
+//		}
 
 		//complete everyone to complete this level
 		for(int i = 0; i < missions.Length; i++)
@@ -77,8 +77,9 @@ public class GameLevel : SingletonBase<GameLevel>
 		//level success also lead to next level, if all levels are donw, go to main menu
 		if(!isLastLevel)
 		{
-			SceneController.Instance.LoadNextScene(true, true, true);	
+			SceneController.Instance.LoadNextScene(true, true, true);
 		}else{
+			GameManager.Instance.ClearData();
 			SceneController.Instance.LoadNextScene(true, true, false);
 		}
 	}

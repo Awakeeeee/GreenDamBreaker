@@ -7,6 +7,7 @@ public class Collectable : MonoBehaviour
 	public Transform parent;
 	public Transform minimapMark;
  	public float spinSpeed = 60f;
+	public AudioClip pickSFX;
 
 	protected virtual void Update()
 	{

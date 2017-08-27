@@ -74,6 +74,17 @@ public class DeformerBlockHP : Health
 			deathParticle.Play();
 		}
 
+		EnemyHP[] existingEnemies = FindObjectsOfType<EnemyHP>();
+		EnemySpawnerBase[] spawners = FindObjectsOfType<EnemySpawnerBase>();
+		foreach(EnemySpawnerBase esb in spawners)
+		{
+			esb.gameObject.SetActive(false);
+		}
+		foreach(EnemyHP e in existingEnemies)
+		{
+			e.TakeDamage(1000f);
+		}
+
 		Destroy(this.gameObject);
 	}
 }
